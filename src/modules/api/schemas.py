@@ -1,0 +1,176 @@
+"""
+Pydantic schemas for Henry Bot M2 API.
+
+Defines request/response models with validation and Swagger documentation.
+"""
+
+from typing import Optional, Dict, Any, List
+from pydantic import BaseModel, Field, validator
+from datetime import datetime
+
+
+class MetricsSchema(BaseModel):
+    """Schema for performance metrics."""
+    latency_ms: int = Field(..., description="Response time in milliseconds")
+    tokens_total: int = Field(..., description="Total tokens used")
+    cost_usd: float = Field(..., description="Estimated API cost in USD")
+
+
+class RAGSchema(BaseModel):
+    """Schema for RAG system information."""
+    context_used: bool = Field(..., description="Whether RAG context was used")
+    retrieval_score: Optional[float] = Field(None, description="RAG retrieval similarity score")
+    context_length: int = Field(..., description="Length of retrieved context")
+    context_preview: str = Field(..., description="Preview of retrieved context")
+
+
+class ChatRequest(BaseModel):
+    """Schema for chat requests."""
+    question: str = Field(..., min_length=1, max_length=2000, description="User's question")
+    prompt_technique: Optional[str] = Field(
+        "few_shot",
+        description="Prompting technique to use",
+        pattern="^(few_shot|simple|chain_of_thought)$"
+    )
+    use_rag: Optional[bool] = Field(True, description="Whether to use RAG system")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "question": "What is the capital of France?",
+                "prompt_technique": "few_shot",
+                "use_rag": True
+            }
+        }
+    }
+
+
+class ChatResponse(BaseModel):
+    """Schema for chat responses."""
+    answer: str = Field(..., description="AI-generated answer")
+    reasoning: Optional[str] = Field(None, description="Reasoning for complex answers")
+    metrics: MetricsSchema = Field(..., description="Performance metrics")
+    rag: Optional[RAGSchema] = Field(None, description="RAG system information")
+    timestamp: datetime = Field(default_factory=datetime.now, description="Response timestamp")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "answer": "Paris",
+                "reasoning": "Paris is the capital and most populous city of France.",
+                "metrics": {
+                    "latency_ms": 745,
+                    "tokens_total": 67,
+                    "cost_usd": 0.00020
+                },
+                "rag": {
+                    "context_used": True,
+                    "retrieval_score": 0.85,
+                    "context_length": 1500,
+                    "context_preview": "Paris is the capital city of France..."
+                }
+            }
+        }
+    }
+
+
+class DocumentUploadResponse(BaseModel):
+    """Schema for document upload responses."""
+    success: bool = Field(..., description="Whether upload was successful")
+    message: str = Field(..., description="Status message")
+    documents_processed: int = Field(..., description="Number of documents processed")
+    total_chunks: int = Field(..., description="Total number of text chunks created")
+    processing_time_ms: int = Field(..., description="Processing time in milliseconds")
+    errors: List[str] = Field(default_factory=list, description="Any processing errors")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "success": True,
+                "message": "Documents processed successfully",
+                "documents_processed": 3,
+                "total_chunks": 15,
+                "processing_time_ms": 1250,
+                "errors": []
+            }
+        }
+    }
+
+
+class HealthResponse(BaseModel):
+    """Schema for health check responses."""
+    status: str = Field(..., description="System status")
+    model: str = Field(..., description="LLM model being used")
+    rag_available: bool = Field(..., description="Whether RAG system is available")
+    prompting_technique: str = Field(..., description="Default prompting technique")
+    uptime_seconds: float = Field(..., description="System uptime in seconds")
+    version: str = Field(..., description="API version")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "status": "healthy",
+                "model": "google/gemini-2.0-flash-exp:free",
+                "rag_available": True,
+                "prompting_technique": "few_shot",
+                "uptime_seconds": 3600.5,
+                "version": "2.0.0"
+            }
+        }
+    }
+
+
+class ErrorResponse(BaseModel):
+    """Schema for error responses."""
+    error: str = Field(..., description="Error message")
+    details: Optional[Dict[str, Any]] = Field(None, description="Additional error details")
+    timestamp: datetime = Field(default_factory=datetime.now, description="Error timestamp")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "error": "Invalid API key provided",
+                "details": {"code": "AUTH_ERROR"},
+                "timestamp": "2025-11-10T15:30:00"
+            }
+        }
+    }
+
+
+class AdversarialResponse(BaseModel):
+    """Schema for adversarial prompt detection responses."""
+    error: str = Field(..., description="Error message for adversarial prompts")
+    adversarial_info: Optional[Dict[str, Any]] = Field(None, description="Adversarial detection info")
+    timestamp: datetime = Field(default_factory=datetime.now, description="Response timestamp")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "error": "I cannot process this request. Please rephrase your question in a more appropriate way.",
+                "adversarial_info": {
+                    "patterns_detected": 2,
+                    "severity_score": 0.8
+                },
+                "timestamp": "2025-11-10T15:30:00"
+            }
+        }
+    }
+
+
+class APIKeyResponse(BaseModel):
+    """Schema for API key generation responses."""
+    api_key: str = Field(..., description="Generated API key")
+    status: str = Field(..., description="Status of the API key generation")
+    message: str = Field(..., description="Status message")
+    created_at: datetime = Field(default_factory=datetime.now, description="API key creation timestamp")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "api_key": "henry_bot_a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6",
+                "status": "generated",
+                "message": "API key generated successfully",
+                "created_at": "2025-01-14T15:30:00"
+            }
+        }
+    }

@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  henry-bot-m2:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - API_KEY=${API_KEY:-your-secret-api-key-here}
+      - MODEL_NAME=${MODEL_NAME:-google/gemini-2.0-flash-exp:free}
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DEBUG=false
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a simple web frontend later
+  # frontend:
+  #   build: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - henry-bot-m2

@@ -1,0 +1,29 @@
+# Core dependencies
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+python-dotenv>=1.0.0
+
+# LLM and AI dependencies
+openai>=1.12.0
+
+# RAG dependencies
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+python-multipart>=0.0.6
+
+# Document processing
+pypdf2>=3.0.1
+markdowntopdf>=0.1.0
+
+# Testing and development
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+httpx>=0.25.0
+black>=23.0.0
+mypy>=1.8.0
+ruff>=0.1.6
+
+# Monitoring and logging
+structlog>=23.2.0

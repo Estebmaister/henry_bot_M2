@@ -1,0 +1,152 @@
+timestamp,endpoint,method,user_agent,ip_address,response_status,response_time_ms
+2025-11-10T17:34:32.576429,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-10T17:34:32.960970,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,17
+2025-11-10T17:34:40.301533,/health,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-10T17:34:48.855173,/health,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-10T17:38:02.498031,/health,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-10T17:39:31.361651,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-10T17:39:31.519377,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,17
+2025-11-10T17:45:32.907286,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,200,2409
+2025-11-11T09:30:40.492355,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2
+2025-11-11T09:30:40.673446,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,28
+2025-11-11T09:30:57.756725,/health,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2
+2025-11-11T22:01:48.340235,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2
+2025-11-11T22:01:48.433681,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,16
+2025-11-11T22:01:52.343432,/health,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-11T22:04:17.354482,/health,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-11T22:07:24.955861,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,422,1
+2025-11-11T22:07:47.067236,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,200,2728
+2025-11-11T22:08:27.029343,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,500,6635
+2025-11-11T22:09:16.488899,/api/v1/documents,POST,curl/8.7.1,127.0.0.1,200,1
+2025-11-11T22:10:25.880919,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-11T22:15:02.480190,/health,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-11T22:15:02.490096,/,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-11T22:15:19.234632,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,500,16724
+2025-11-11T22:15:25.293649,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,500,6047
+2025-11-11T22:15:25.305199,/api/v1/documents,POST,curl/8.7.1,127.0.0.1,200,0
+2025-11-11T22:15:25.319133,/docs,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-11T22:15:36.716746,/redoc,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2
+2025-11-11T22:15:37.179200,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,18
+2025-11-14T12:51:12.343186,/api/v1/generate-api-key,POST,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T12:51:21.075538,/docs,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T12:51:26.348807,/openapi.json,GET,curl/8.7.1,127.0.0.1,200,7
+2025-11-14T12:51:30.183065,/health,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T12:51:30.942315,/,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T12:53:15.698432,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T12:54:43.714417,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,405,2
+2025-11-14T12:55:26.532414,/api/v1/generate-api-key,POST,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T12:56:28.967201,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2
+2025-11-14T12:56:42.163631,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T12:56:42.240504,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,13
+2025-11-14T12:56:49.823937,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T12:56:56.558234,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T12:57:12.822247,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T12:57:12.971037,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T12:57:18.483249,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T12:58:25.515742,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T12:58:56.693107,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T12:58:57.415796,/api/v1/generate-api-key,POST,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T12:59:06.124059,/openapi.json,GET,curl/8.7.1,127.0.0.1,200,8
+2025-11-14T12:59:56.477377,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T13:00:01.966636,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T13:01:46.255638,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:01:46.978888,/,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:01:57.343493,/api/v1/generate-api-key,GET,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36,127.0.0.1,200,0
+2025-11-14T13:01:58.075335,/,GET,Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36,127.0.0.1,200,0
+2025-11-14T13:02:23.192774,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T13:02:28.408912,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T13:03:44.731995,/,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:03:45.597681,/favicon.ico,GET,curl/8.7.1,127.0.0.1,204,0
+2025-11-14T13:03:46.332717,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:03:55.151371,/,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:03:55.159122,/favicon.ico,GET,curl/8.7.1,127.0.0.1,204,0
+2025-11-14T13:04:25.849633,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T13:04:25.894991,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:04:36.311349,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2
+2025-11-14T13:04:36.385410,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:04:56.552387,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T13:04:56.659592,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,13
+2025-11-14T13:05:01.080599,/health,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T13:05:19.071051,/api/v1/generate-api-key,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T13:05:21.933365,/api/v1/generate-api-key,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T13:05:35.570358,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,1
+2025-11-14T13:05:39.654582,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:05:43.310742,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:05:53.792957,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:06:18.939791,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T13:06:37.833640,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:09:40.875693,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:10:05.606055,/api/v1/nonexistent-endpoint,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:12:17.009667,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,1
+2025-11-14T13:13:26.153013,/openapi,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:13:36.233367,/openapi.json,GET,curl/8.7.1,127.0.0.1,200,8
+2025-11-14T13:13:51.451129,/docs,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:14:49.552918,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:14:55.780989,/openapi,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,404,1
+2025-11-14T13:14:55.854347,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:16:20.827937,//openapi,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:16:28.185799,//openapi.json,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:16:28.193568,//docs,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:18:06.322592,//openapi,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:18:12.152638,/openapi,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:18:16.393496,/openapi.json,GET,curl/8.7.1,127.0.0.1,200,8
+2025-11-14T13:18:30.734857,/api/v1//chat,POST,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:18:41.832718,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,200,6127
+2025-11-14T13:18:53.816247,//api//v1//generate-api-key,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:19:10.399005,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:19:19.642040,//openapi.json,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:19:19.649385,/api/v1//chat,POST,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T13:19:19.655863,/health/,GET,curl/8.7.1,127.0.0.1,307,0
+2025-11-14T13:19:19.662193,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:19:19.669088,/docs,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:24:43.341066,/openapi,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,404,0
+2025-11-14T13:24:43.399192,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:25:00.728146,/openapi,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,404,1
+2025-11-14T13:25:00.800554,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:25:04.941025,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T13:25:05.021174,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:25:53.785257,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:26:00.992958,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:26:04.855737,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:27:32.237560,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T13:30:32.280330,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T13:30:39.246908,/health,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T14:26:31.552836,/api/v1/document,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,404,0
+2025-11-14T14:26:31.656023,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,1
+2025-11-14T14:26:41.481029,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,1
+2025-11-14T14:26:46.142032,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:26:49.097555,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:31:52.285285,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T14:34:29.295643,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T14:38:53.234053,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,1
+2025-11-14T14:42:07.212007,/health,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T14:42:15.467380,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,401,1
+2025-11-14T14:42:29.341924,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,500,7443
+2025-11-14T14:43:15.783659,//health,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T14:43:23.569730,///health,GET,curl/8.7.1,127.0.0.1,404,0
+2025-11-14T14:43:40.041183,/health,GET,curl/8.7.1,127.0.0.1,200,0
+2025-11-14T14:44:13.786587,//api/v1/documents,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,404,0
+2025-11-14T14:44:13.884974,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:22.037146,/api/v1/documents,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,405,1
+2025-11-14T14:44:22.096016,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:29.579307,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,1
+2025-11-14T14:44:35.483395,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:37.622872,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,26
+2025-11-14T14:44:37.690177,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:39.142540,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:41.021607,/openapi,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,404,0
+2025-11-14T14:44:41.085304,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:42.703787,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:43.879182,//openapi,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,404,0
+2025-11-14T14:44:43.918984,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:45.674652,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:44:48.604043,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T14:44:48.650022,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T14:44:56.045678,/,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T14:44:56.118680,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T14:45:42.214053,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,401,2
+2025-11-14T14:46:00.208507,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,6572
+2025-11-14T14:54:31.248402,/api/v1/generate-api-key,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T14:54:42.053004,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,401,2
+2025-11-14T14:57:32.143895,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T14:57:39.626935,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0

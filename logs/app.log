@@ -1,0 +1,96 @@
+2025-11-10 16:10:57,300 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:11:00,269 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-10 16:11:06,089 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:11:10,806 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:11:12,660 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-10 16:11:16,765 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:11:46,164 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:11:48,912 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-10 16:13:42,679 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:13:43,819 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-10 16:13:48,320 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:16:27,243 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:17:22,226 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 16:17:28,646 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-11-10 16:17:28,647 - openai._base_client - INFO - Retrying request to /chat/completions in 0.396647 seconds
+2025-11-10 16:17:30,907 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-10 16:17:30,907 - openai._base_client - INFO - Retrying request to /chat/completions in 0.851795 seconds
+2025-11-10 16:17:38,054 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-11-10 16:33:07,542 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:34:21,158 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:37:30,260 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:37:59,711 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:39:27,604 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:41:37,105 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:41:59,839 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:42:29,061 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:43:19,620 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:44:04,332 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:44:58,944 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:45:25,819 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-10 17:45:32,709 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-10 17:46:02,761 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-11 21:45:51,458 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-11 22:01:15,069 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-11 22:07:46,805 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-11 22:08:22,816 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-11 22:08:22,818 - openai._base_client - INFO - Retrying request to /chat/completions in 0.429265 seconds
+2025-11-11 22:08:24,394 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-11 22:08:24,398 - openai._base_client - INFO - Retrying request to /chat/completions in 0.944745 seconds
+2025-11-11 22:08:27,018 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-11 22:08:56,193 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-11 22:15:09,811 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-11-11 22:15:09,811 - openai._base_client - INFO - Retrying request to /chat/completions in 0.422194 seconds
+2025-11-11 22:15:12,594 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-11 22:15:12,594 - openai._base_client - INFO - Retrying request to /chat/completions in 0.910065 seconds
+2025-11-11 22:15:19,231 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 500 Internal Server Error"
+2025-11-11 22:15:20,467 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-11 22:15:20,467 - openai._base_client - INFO - Retrying request to /chat/completions in 0.461455 seconds
+2025-11-11 22:15:22,777 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-11 22:15:22,778 - openai._base_client - INFO - Retrying request to /chat/completions in 0.878777 seconds
+2025-11-11 22:15:25,291 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-14 12:50:46,695 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:51:06,285 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:52:53,165 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:54:42,243 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:55:20,567 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:56:17,721 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:58:34,588 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:58:49,435 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 12:59:37,486 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:01:35,216 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:02:20,668 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:03:34,672 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:04:23,751 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:07:39,788 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:08:20,435 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:09:00,038 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:12:11,479 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:13:12,277 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:14:30,380 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:16:08,320 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:18:39,139 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-14 13:18:39,141 - openai._base_client - INFO - Retrying request to /chat/completions in 0.385413 seconds
+2025-11-14 13:18:41,731 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-14 13:24:40,377 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:24:47,292 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:27:25,436 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 13:28:59,160 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:26:18,629 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:26:28,143 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:31:37,586 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:34:16,157 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:38:49,926 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:41:55,464 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:42:24,595 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-14 14:42:24,596 - openai._base_client - INFO - Retrying request to /chat/completions in 0.479223 seconds
+2025-11-14 14:42:27,151 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-14 14:42:27,151 - openai._base_client - INFO - Retrying request to /chat/completions in 0.973951 seconds
+2025-11-14 14:42:29,334 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-14 14:43:04,456 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:44:08,537 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:45:55,957 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-14 14:45:55,960 - openai._base_client - INFO - Retrying request to /chat/completions in 0.476203 seconds
+2025-11-14 14:46:00,145 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-14 14:51:55,870 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-14 14:52:01,810 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
