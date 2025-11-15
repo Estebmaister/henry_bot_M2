@@ -23,37 +23,37 @@ The implementation is based on Henry Bot M1 with significant enhancements:
 
 ### RAG System details:
 - **Document Upload**: TXT/MD/PDF/DOCX file support
-The system accepts ingestion of text documents in common formats: plain text (.txt), Markdown (.md), PDF (.pdf), and Word (.docx). The pipeline converts these files to text for processing.
+  The system accepts ingestion of text documents in common formats: plain text (.txt), Markdown (.md), PDF (.pdf), and Word (.docx). The pipeline converts these files to text for processing.
 
 - **Chunking strategy**: (Sliding windows) Overlapping text chunks for context retrieval
-A sliding‑window chunking strategy is used to divide documents into overlapping segments. This method slides a fixed‑size window across the text; each window overlaps with the previous segment to preserve context. This improves retrieval relevance by ensuring that important information spanning chunk boundaries is captured.
+  A sliding‑window chunking strategy is used to divide documents into overlapping segments. This method slides a fixed‑size window across the text; each window overlaps with the previous segment to preserve context. This improves retrieval relevance by ensuring that important information spanning chunk boundaries is captured.
 
-The cost is redundancy (more storage and processing), but sliding windows are especially useful for unstructured text such as conversations or transcripts where important context may span multiple sentences or paragraphs.
+  The cost is redundancy (more storage and processing), but sliding windows are especially useful for unstructured text such as conversations or transcripts where important context may span multiple sentences or paragraphs.
 
 - **Embeddings**: Sentence-Transformers for semantic representation
-Each fragment is transformed into a vector using a pre‑trained Sentence Transformers model (all‑MiniLM‑L6‑v2). This model converts text into a high‑dimensional vector space so that semantically similar texts are close together. This enables effective similarity search based on meaning rather than just keywords.
+  Each fragment is transformed into a vector using a pre‑trained Sentence Transformers model (all‑MiniLM‑L6‑v2). This model converts text into a high‑dimensional vector space so that semantically similar texts are close together. This enables effective similarity search based on meaning rather than just keywords.
 
-At query time, the question is also embedded into the same vector space and compared to the fragment embeddings to find those with the highest semantic similarity.
+  At query time, the question is also embedded into the same vector space and compared to the fragment embeddings to find those with the highest semantic similarity.
 
 - **Vector Storage**: FAISS for efficient similarity search
-The embeddings are stored in a FAISS (Facebook AI Similarity Search) index for efficient similarity search. FAISS is designed for nearest‑neighbour search across large volumes of vectors, which makes it suitable for RAG systems.
+  The embeddings are stored in a FAISS (Facebook AI Similarity Search) index for efficient similarity search. FAISS is designed for nearest‑neighbour search across large volumes of vectors, which makes it suitable for RAG systems.
 
-The vector store allows retrieval of the k nearest vectors; when queried, it quickly returns the k most similar fragments.
+  The vector store allows retrieval of the k nearest vectors; when queried, it quickly returns the k most similar fragments.
 
 - **Context Retrieval**: Top-K similar chunks with relevance scoring
-For each query, the system retrieves the k most relevant fragments. One example RAG pipeline retrieves the top three fragments using a FAISS vector store to answer a question.
+  For each query, the system retrieves the k most relevant fragments. One example RAG pipeline retrieves the top three fragments using a FAISS vector store to answer a question.
 
-Retrieving multiple overlapping fragments ensures that the context provided covers different sections of the document and reduces omissions. 
+  Retrieving multiple overlapping fragments ensures that the context provided covers different sections of the document and reduces omissions. 
 
 - **Prompt Augmentation**: Contextual prompts for LLM queries
-The retrieved fragments are injected into the large language model’s prompt. A common template instructs the model to answer based only on the context and to say when there is not enough information .
+  The retrieved fragments are injected into the large language model’s prompt. A common template instructs the model to answer based only on the context and to say when there is not enough information .
 
-This prompt augmentation grounds the model’s response in factual information from the document and discourages hallucination.
+  This prompt augmentation grounds the model’s response in factual information from the document and discourages hallucination.
 
 - **RAG-Augmented Responses**: LLM prompts enriched with retrieved context
-By combining semantic retrieval with prompt augmentation, the system produces responses enriched with contextual information. The model’s answer is based on retrieved facts rather than solely on its pre‑trained knowledge.
+  By combining semantic retrieval with prompt augmentation, the system produces responses enriched with contextual information. The model’s answer is based on retrieved facts rather than solely on its pre‑trained knowledge.
 
-Augmented responses improve accuracy and reduce hallucination because the model has access to relevant supporting information during generation.
+  Augmented responses improve accuracy and reduce hallucination because the model has access to relevant supporting information during generation.
 
 All the functionalities are encapsulated in modular components for easy maintenance and extension.
 
