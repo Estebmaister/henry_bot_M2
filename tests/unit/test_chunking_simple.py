@@ -5,13 +5,12 @@ Simple test script for RAG chunking functionality.
 Tests the sliding window chunking strategy and metadata generation.
 """
 
+from modules.rag.chunking import SlidingWindowChunker, DocumentType, create_chunker
 import sys
 from pathlib import Path
 
 # Add src to path for imports
-sys.path.insert(0, str(Path(__file__).parent / "src"))
-
-from modules.rag.chunking import SlidingWindowChunker, DocumentType, create_chunker
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 
 def test_sliding_window_chunking():
@@ -56,12 +55,14 @@ def test_sliding_window_chunking():
         print(f"   Length: {chunk.metadata.char_count} chars")
         print(f"   Words: {chunk.metadata.word_count}")
         print(f"   Density Score: {chunk.metadata.density_score:.3f}")
-        print(f"   Keywords: {chunk.metadata.keywords[:3]}")  # Show first 3 keywords
+        # Show first 3 keywords
+        print(f"   Keywords: {chunk.metadata.keywords[:3]}")
         print(f"   Preview: {chunk.content[:100]}...")
 
     # Test with different parameters
     print(f"\n🔧 Testing with different parameters...")
-    chunker2 = create_chunker("sliding_window", chunk_size=200, overlap_size=30)
+    chunker2 = create_chunker(
+        "sliding_window", chunk_size=200, overlap_size=30)
     chunks2 = chunker2.chunk_document(
         document_content=test_content,
         document_id="test_doc_002",

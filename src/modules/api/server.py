@@ -11,6 +11,7 @@ import time
 import asyncio
 import json
 import logging
+import uuid
 from datetime import datetime
 from .schemas import (
     ChatRequest, ChatResponse, DocumentUploadResponse, HealthResponse,
@@ -381,7 +382,6 @@ def register_routes(app: FastAPI):
                         continue
 
                     # Generate unique document ID
-                    import uuid
                     document_id = str(uuid.uuid4())
 
                     # Add file to accepted list for background processing

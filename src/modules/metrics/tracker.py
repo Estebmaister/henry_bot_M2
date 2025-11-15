@@ -157,7 +157,8 @@ class MetricsTracker:
 
         # Calculate costs
         prompt_cost = (self.prompt_tokens / 1000) * pricing.prompt_price_per_1k
-        completion_cost = (self.completion_tokens / 1000) * pricing.completion_price_per_1k
+        completion_cost = (self.completion_tokens / 1000) * \
+            pricing.completion_price_per_1k
         total_cost = prompt_cost + completion_cost
 
         return round(total_cost, 5)

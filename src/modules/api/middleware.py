@@ -70,8 +70,6 @@ class URLNormalizationMiddleware(BaseHTTPMiddleware):
         return await call_next(request)
 
 
-
-
 class RateLimitMiddleware(BaseHTTPMiddleware):
     """Simple in-memory rate limiting middleware."""
 

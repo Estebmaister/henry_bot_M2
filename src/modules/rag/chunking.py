@@ -418,7 +418,8 @@ class SlidingWindowChunker(ChunkingStrategy):
         """Extract keywords, named entities, and technical terms (optimized version)."""
         # For performance, limit content analysis for large chunks
         max_content_length = 2000  # Limit analysis to first 2000 chars
-        analysis_content = content[:max_content_length] if len(content) > max_content_length else content
+        analysis_content = content[:max_content_length] if len(
+            content) > max_content_length else content
 
         # Simple keyword extraction with performance optimization
         words = re.findall(r'\b\w+\b', analysis_content.lower())
@@ -442,10 +443,12 @@ class SlidingWindowChunker(ChunkingStrategy):
             processed_words += 1
 
         # Get top keywords (limit to 3 for performance)
-        keywords = [word for word, freq in sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:3]]
+        keywords = [word for word, freq in sorted(
+            word_freq.items(), key=lambda x: x[1], reverse=True)[:3]]
 
         # Simple patterns for named entities (limit matches for performance)
-        named_entities_matches = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', analysis_content)
+        named_entities_matches = re.findall(
+            r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', analysis_content)
         named_entities = list(set(named_entities_matches[:5]))
 
         # Technical terms (limit patterns and matches for performance)

@@ -6,20 +6,21 @@ This file serves as the module orchestrator only.
 All business logic is delegated to specialized modules.
 """
 
+from src.modules.logging.logger import setup_logging
+from src.core.exceptions import HenryBotError
+from src.core.agent import HenryBot
+from src.core.config import settings
 import sys
 import json
 import uvicorn
+import logging
+import asyncio
 from pathlib import Path
 
 # Add src to Python path
 current_dir = Path(__file__).parent
 parent_dir = current_dir.parent
 sys.path.insert(0, str(parent_dir))
-
-from src.core.config import settings
-from src.core.agent import HenryBot
-from src.core.exceptions import HenryBotError
-from src.modules.logging.logger import setup_logging
 
 
 def setup_directories():
@@ -47,7 +48,6 @@ def main():
             setup_logging()
         else:
             # For CLI, only setup file logging (silent console)
-            import logging
             log_dir = Path(settings.log_file).parent
             log_dir.mkdir(parents=True, exist_ok=True)
             logging.basicConfig(
@@ -64,8 +64,10 @@ def main():
         if command == "server":
             # Start the API server
             print("🚀 Starting Henry Bot M2 API Server...")
-            print(f"📍 Server will be available at: http://{settings.host}:{settings.port}")
-            print(f"📚 API Documentation: http://{settings.host}:{settings.port}/docs")
+            print(
+                f"📍 Server will be available at: http://{settings.host}:{settings.port}")
+            print(
+                f"📚 API Documentation: http://{settings.host}:{settings.port}/docs")
 
             # Lazy import of API server components only when needed
             from src.modules.api.server import create_app
@@ -97,8 +99,6 @@ API Server:
             # Process the question
             user_question = " ".join(sys.argv[2:])
             bot = HenryBot()
-
-            import asyncio
             result = asyncio.run(bot.process_question(user_question))
             print(json.dumps(result, indent=2))
 

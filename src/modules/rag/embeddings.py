@@ -13,6 +13,7 @@ from enum import Enum
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 import time
+import torch
 
 from src.core.config import settings
 
@@ -139,7 +140,7 @@ class SentenceTransformerModel(EmbeddingModel):
     def __init__(self, config: EmbeddingConfig):
         super().__init__(config)
         self.model = None
-        # REMOVE: self.executor = ThreadPoolExecutor(max_workers=1)
+        self.executor = ThreadPoolExecutor(max_workers=1)
 
     async def initialize(self) -> None:
         """Initialize the sentence transformer model."""
@@ -159,7 +160,6 @@ class SentenceTransformerModel(EmbeddingModel):
             )
 
             # Set number of threads to avoid conflicts
-            import torch
             torch.set_num_threads(1)
 
             self.is_initialized = True

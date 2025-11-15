@@ -7,6 +7,7 @@ for easy inspection and debugging of chunking results.
 
 import json
 import asyncio
+import concurrent.futures
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 from datetime import datetime
@@ -81,7 +82,8 @@ class JSONChunkStore:
             await self._load_chunks()
 
             for i, chunk in enumerate(chunks):
-                embedding = embeddings[i] if embeddings and i < len(embeddings) else None
+                embedding = embeddings[i] if embeddings and i < len(
+                    embeddings) else None
 
                 entry = ChunkStorageEntry(
                     chunk_id=chunk.chunk_id,
@@ -202,14 +204,13 @@ class JSONChunkStore:
         """Get storage statistics."""
         # Since this is now a synchronous method but needs async components,
         # we'll use asyncio.run to handle the async operations
-        import asyncio
-
         async def _async_get_stats():
             async with self._lock:
                 await self._load_chunks()
 
                 total_chunks = len(self.chunks)
-                documents = set(chunk.document_id for chunk in self.chunks.values())
+                documents = set(
+                    chunk.document_id for chunk in self.chunks.values())
 
                 # Document type distribution
                 type_counts = {}
@@ -239,7 +240,6 @@ class JSONChunkStore:
         try:
             loop = asyncio.get_running_loop()
             # Create a future and run it in the existing loop
-            import concurrent.futures
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(asyncio.run, _async_get_stats())
                 return future.result()

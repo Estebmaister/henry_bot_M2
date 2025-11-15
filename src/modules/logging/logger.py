@@ -6,11 +6,9 @@ Uses CSV-based logging for metrics and structured logging for events.
 """
 
 import csv
-import json
 import logging
 import os
 import re
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Any
@@ -87,12 +85,15 @@ def sanitize_error_message(error_msg):
 
     # Remove verbose OpenRouter/metadata that exposes internal details
     error_str = re.sub(r'Error code: \d+ - \{.*?\}', 'API error', error_str)
-    error_str = re.sub(r'\{[^}]*\'metadata\'\: \{[^}]*\'raw\'\: [^}]*\}', '', error_str)
+    error_str = re.sub(
+        r'\{[^}]*\'metadata\'\: \{[^}]*\'raw\'\: [^}]*\}', '', error_str)
     error_str = re.sub(r'\'user_id\'\: [^}]*\}', '', error_str)
     error_str = re.sub(r'\'provider_name\'\: [^}]*\}', '', error_str)
-    error_str = re.sub(r'\{\}[^}]*$', '', error_str)  # Clean up remaining JSON fragments
+    # Clean up remaining JSON fragments
+    error_str = re.sub(r'\{\}[^}]*$', '', error_str)
 
-    return sanitize_field(error_msg)[:150]  # Even further limit for error messages
+    # Even further limit for error messages
+    return sanitize_field(error_msg)[:150]
 
 
 def log_metrics_from_tracker(
@@ -190,8 +191,8 @@ def log_error(
             first_line = lines[0]
             if len(first_line) > 100:
                 # Extract just the file name and function name
-                import re
-                match = re.search(r'File "[^"]*"[^,]*", line \d+, in (\w+)', first_line)
+                match = re.search(
+                    r'File "[^"]*"[^,]*", line \d+, in (\w+)', first_line)
                 if match:
                     first_line = f"{match.group(1)}: Error in {match.group(2)}"
                 else:
@@ -248,9 +249,11 @@ def log_rag_performance(
     rag_csv = settings.metrics_csv.replace('.csv', '_rag.csv')
     _ensure_csv_headers(rag_csv, rag_headers)
 
-    avg_similarity = sum(similarity_scores) / len(similarity_scores) if similarity_scores else 0
+    avg_similarity = sum(similarity_scores) / \
+        len(similarity_scores) if similarity_scores else 0
     max_similarity = max(similarity_scores) if similarity_scores else 0
-    above_threshold = sum(1 for score in similarity_scores if score >= scoring_threshold)
+    above_threshold = sum(
+        1 for score in similarity_scores if score >= scoring_threshold)
 
     row = [
         datetime.now().isoformat(),
@@ -347,10 +350,13 @@ class MetricsAnalytics:
 
             # Calculate summary statistics
             total_requests = len(rows)
-            successful_requests = sum(1 for row in rows if row.get('success', '').lower() == 'true')
-            rag_usage = sum(1 for row in rows if row.get('rag_used', '').lower() == 'true')
+            successful_requests = sum(1 for row in rows if row.get(
+                'success', '').lower() == 'true')
+            rag_usage = sum(1 for row in rows if row.get(
+                'rag_used', '').lower() == 'true')
 
-            avg_latency = sum(float(row.get('latency_ms', 0)) for row in rows) / total_requests
+            avg_latency = sum(float(row.get('latency_ms', 0))
+                              for row in rows) / total_requests
             total_cost = sum(float(row.get('cost_usd', 0)) for row in rows)
             total_tokens = sum(int(row.get('tokens_total', 0)) for row in rows)
 

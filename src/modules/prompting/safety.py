@@ -149,7 +149,8 @@ class AdversarialPromptDetector:
             # If any word appears more than 30% of the time, it's suspicious
             for word, count in word_counts.items():
                 if count / len(words) > 0.3 and len(word) > 3:
-                    detected_patterns.append(f"Heuristic: Excessive repetition of '{word}'")
+                    detected_patterns.append(
+                        f"Heuristic: Excessive repetition of '{word}'")
                     break
 
         # Check for very long prompts (potential context flooding)

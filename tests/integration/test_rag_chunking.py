@@ -6,17 +6,17 @@ Tests the sliding window chunking strategy and metadata generation
 to verify the implementation works correctly.
 """
 
+from modules.rag.storage import create_vector_store, create_document_store
+from modules.rag.processor import DocumentProcessor, create_document_processor
+from modules.rag.embeddings import create_embedding_service, EmbeddingModelType
+from modules.rag.chunking import SlidingWindowChunker, DocumentType, create_chunker
 import asyncio
 import sys
 from pathlib import Path
+import traceback
 
 # Add src to path for imports
-sys.path.insert(0, str(Path(__file__).parent / "src"))
-
-from modules.rag.chunking import SlidingWindowChunker, DocumentType, create_chunker
-from modules.rag.embeddings import create_embedding_service, EmbeddingModelType
-from modules.rag.processor import DocumentProcessor, create_document_processor
-from modules.rag.storage import create_vector_store, create_document_store
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 
 async def test_sliding_window_chunking():
@@ -63,12 +63,14 @@ async def test_sliding_window_chunking():
         print(f"   Length: {chunk.metadata.char_count} chars")
         print(f"   Words: {chunk.metadata.word_count}")
         print(f"   Density Score: {chunk.metadata.density_score:.3f}")
-        print(f"   Keywords: {chunk.metadata.keywords[:3]}")  # Show first 3 keywords
+        # Show first 3 keywords
+        print(f"   Keywords: {chunk.metadata.keywords[:3]}")
         print(f"   Preview: {chunk.content[:100]}...")
 
     # Test with different parameters
     print(f"\n🔧 Testing with different parameters...")
-    chunker2 = create_chunker("sliding_window", chunk_size=200, overlap_size=30)
+    chunker2 = create_chunker(
+        "sliding_window", chunk_size=200, overlap_size=30)
     chunks2 = chunker2.chunk_document(
         document_content=test_content,
         document_id="test_doc_002",
@@ -154,15 +156,18 @@ async def test_document_processor():
             print(f"   Embeddings generated: {result.embeddings is not None}")
 
             if result.embeddings:
-                print(f"   Embedding shape: {result.embeddings.embeddings.shape}")
+                print(
+                    f"   Embedding shape: {result.embeddings.embeddings.shape}")
 
             # Show chunk metadata
             if result.chunks:
                 chunk = result.chunks[0]
                 print(f"   First chunk metadata:")
                 print(f"     Keywords: {chunk.metadata.keywords}")
-                print(f"     Technical terms: {chunk.metadata.technical_terms}")
-                print(f"     Coherence score: {chunk.metadata.coherence_score:.3f}")
+                print(
+                    f"     Technical terms: {chunk.metadata.technical_terms}")
+                print(
+                    f"     Coherence score: {chunk.metadata.coherence_score:.3f}")
 
         else:
             print(f"❌ Document processing failed: {result.error_message}")
@@ -171,15 +176,17 @@ async def test_document_processor():
         # Get processing stats
         stats = processor.get_stats()
         print(f"\n📊 Processing Statistics:")
-        print(f"   Documents processed: {stats['processing_stats']['total_documents']}")
-        print(f"   Chunks created: {stats['processing_stats']['total_chunks']}")
-        print(f"   Success rate: {stats['processing_stats']['success_rate']:.1%}")
+        print(
+            f"   Documents processed: {stats['processing_stats']['total_documents']}")
+        print(
+            f"   Chunks created: {stats['processing_stats']['total_chunks']}")
+        print(
+            f"   Success rate: {stats['processing_stats']['success_rate']:.1%}")
 
         return True
 
     except Exception as e:
         print(f"❌ Document processor test failed: {e}")
-        import traceback
         traceback.print_exc()
         return False
 
@@ -274,7 +281,6 @@ async def main():
 
     except Exception as e:
         print(f"\n❌ Test suite failed with error: {e}")
-        import traceback
         traceback.print_exc()
         return 1
 

@@ -16,10 +16,48 @@ An advanced FAQ LLM agent with **Retrieval-Augmented Generation (RAG)** capabili
 ## 📋 Report
 
 The implementation is based on Henry Bot M1 with significant enhancements:
-- **Architecture**: Modular design with main.py as pure orchestrator [see planning](./.claude/sessions/context_session_llm_agent_planning.md)
+- **Architecture**: Modular design with main.py as pure orchestrator 
 - **RAG System**: FAISS-based vector storage with Sentence-Transformers embeddings
 - **API Server**: RESTful endpoints with comprehensive documentation
 - **Performance**: Enhanced metrics tracking and analytics
+
+### RAG System details:
+- **Document Upload**: TXT/MD/PDF/DOCX file support
+The system accepts ingestion of text documents in common formats: plain text (.txt), Markdown (.md), PDF (.pdf), and Word (.docx). The pipeline converts these files to text for processing.
+
+- **Chunking strategy**: (Sliding windows) Overlapping text chunks for context retrieval
+A sliding‑window chunking strategy is used to divide documents into overlapping segments. This method slides a fixed‑size window across the text; each window overlaps with the previous segment to preserve context. This improves retrieval relevance by ensuring that important information spanning chunk boundaries is captured.
+
+The cost is redundancy (more storage and processing), but sliding windows are especially useful for unstructured text such as conversations or transcripts where important context may span multiple sentences or paragraphs.
+
+- **Embeddings**: Sentence-Transformers for semantic representation
+Each fragment is transformed into a vector using a pre‑trained Sentence Transformers model (all‑MiniLM‑L6‑v2). This model converts text into a high‑dimensional vector space so that semantically similar texts are close together. This enables effective similarity search based on meaning rather than just keywords.
+
+At query time, the question is also embedded into the same vector space and compared to the fragment embeddings to find those with the highest semantic similarity.
+
+- **Vector Storage**: FAISS for efficient similarity search
+The embeddings are stored in a FAISS (Facebook AI Similarity Search) index for efficient similarity search. FAISS is designed for nearest‑neighbour search across large volumes of vectors, which makes it suitable for RAG systems.
+
+The vector store allows retrieval of the k nearest vectors; when queried, it quickly returns the k most similar fragments.
+
+- **Context Retrieval**: Top-K similar chunks with relevance scoring
+For each query, the system retrieves the k most relevant fragments. One example RAG pipeline retrieves the top three fragments using a FAISS vector store to answer a question.
+
+Retrieving multiple overlapping fragments ensures that the context provided covers different sections of the document and reduces omissions. 
+
+- **Prompt Augmentation**: Contextual prompts for LLM queries
+The retrieved fragments are injected into the large language model’s prompt. A common template instructs the model to answer based only on the context and to say when there is not enough information .
+
+This prompt augmentation grounds the model’s response in factual information from the document and discourages hallucination.
+
+- **RAG-Augmented Responses**: LLM prompts enriched with retrieved context
+By combining semantic retrieval with prompt augmentation, the system produces responses enriched with contextual information. The model’s answer is based on retrieved facts rather than solely on its pre‑trained knowledge.
+
+Augmented responses improve accuracy and reduce hallucination because the model has access to relevant supporting information during generation.
+
+All the functionalities are encapsulated in modular components for easy maintenance and extension.
+
+---
 
 ## 🚀 Server Quick Start
 
@@ -47,6 +85,7 @@ cp .env.example .env
 
 # 5. Start the server
 python -m src.main server
+# Test the server comfortably from: http://0.0.0.0:8000/swagger
 ```
 
 ### Environment Configuration
@@ -58,7 +97,10 @@ Create a `.env` file with your settings:
 OPENROUTER_API_KEY=your-openrouter-api-key-here
 
 # Required: Your secret API key for client authentication
-API_KEY=your-secret-api-key-here
+API_KEY=henry_bot_8285994a7534ff6bfc6db2698ce8203d
+## This key must be included in request headers as `X-API-Key`
+## Is currently easy to get from public endpoints for testing purposes.
+## In the future it will be generated per user.
 
 # Optional: Model selection (default: free Gemini model)
 MODEL_NAME=google/gemini-2.0-flash-exp:free
@@ -77,7 +119,7 @@ PORT=8000
   - ⏱️ *Response latency* (ms)
   - 🪙 *Token usage* (prompt + completion)
   - 💰 *API cost estimation*
-  - 🎯 *RAG retrieval scores* (NEW in M2)
+  - 🎯 *RAG retrieval scores*
 
 ### Enhanced Features (M2)
 - **RAG System**: Document retrieval with similarity scoring
@@ -88,11 +130,13 @@ PORT=8000
 - **Error Handling**: Robust error handling with structured responses
 - **Security**: Rate limiting, CORS, security headers, input validation
 
-### 🔄 RAG System (Phase 2 - In Progress)
-- **Document Upload**: Support for TXT, MD files (PDF planned)
+### 🔄 RAG System
+- **Document Upload**: Support for TXT, MD, PDF, DOCX files
 - **Vector Storage**: FAISS-based similarity search
 - **Context Retrieval**: RAG-augmented responses with scoring
 - **Semantic Search**: Advanced document matching
+- **Prompt Augmentation**: Contextual prompts for LLM queries
+- **Configurable Parameters**: Top-K retrieval, scoring thresholds
 
 ### 🛡️ Safety & Security
 - **Adversarial Detection**: Multiple pattern types for prompt injection
@@ -120,14 +164,22 @@ src/
 │   ├── metrics/              # 📊 Enhanced from M1 + RAG tracking
 │   │   └── tracker.py        # Performance metrics with RAG scores
 │   ├── rag/                  # 🔄 Document retrieval system
-│   │   └── retriever.py      # FAISS-based similarity search
+│   │   ├── retriever.py      # FAISS-based similarity search
+│   │   ├── chunking.py       # Document chunking strategies
+│   │   ├── embeddings.py     # Embedding generation service
+│   │   ├── processor.py      # Document processing pipeline
+│   │   ├── storage.py        # Vector & document storage interfaces
+│   │   └── chunk_store.py    # JSON-based chunk metadata storage
+│
 │   ├── api/                  # 🌐 FastAPI server
 │   │   ├── server.py         # Application with routes
 │   │   ├── schemas.py        # Pydantic models
 │   │   └── middleware.py     # Auth, rate limiting, logging
 │   └── logging/              # 📝 Enhanced from M1 + RAG analytics
 │       └── logger.py         # Structured logging with CSV export
-└── utils/                     # 🔧 Helper functions
+└── utils/                    # 🔧 Helper functions
+└── data/                     # 📁 Static data files
+└── logs/                     # 📁 Log files and metrics
 ```
 
 ---
@@ -203,6 +255,8 @@ PROMPTING_TECHNIQUE=few_shot
 EMBEDDING_MODEL=all-MiniLM-L6-v2
 SIMILARITY_TOP_K=3
 RESPONSE_SCORING_THRESHOLD=0.7
+
+# ...
 ```
 
 ---
@@ -235,7 +289,7 @@ curl -X POST "http://localhost:8000/api/v1/chat" \
   -H "X-API-Key: your-secret-api-key-here" \
   -H "Content-Type: application/json" \
   -d '{
-    "question": "What is the capital of France?",
+    "question": "What is pandora experience?",
     "prompt_technique": "few_shot",
     "use_rag": false
   }'
@@ -244,14 +298,14 @@ curl -X POST "http://localhost:8000/api/v1/chat" \
 **Response:**
 ```json
 {
-  "answer": "Paris",
+  "answer": "...",
   "reasoning": null,
   "metrics": {
     "latency_ms": 1234,
     "tokens_total": 67,
     "cost_usd": 0.0001
   },
-  "rag": null,
+  "rag": {...},
   "timestamp": "2025-11-11T22:07:47.065972"
 }
 ```
@@ -273,7 +327,7 @@ curl -X POST "http://localhost:8000/api/v1/documents" \
 
 ```bash
 # Test single question
-python -m src.main cli "What is the capital of France?"
+python -m src.main cli "What is pandora experience?"
 
 # Check system status
 python -m src.main status
@@ -388,66 +442,21 @@ tail -f logs/metrics.csv
 - [x] Docker deployment ready
 - [x] Complete testing infrastructure
 
-### 🔄 Phase 2: RAG System (In Progress)
-- [x] Basic RAG architecture (placeholder)
-- [ ] Document processing pipeline
-- [ ] FAISS vector store implementation
-- [ ] Sentence-Transformers integration
-- [ ] Similarity search with scoring
-- [ ] Document upload endpoint
+### ✅ Phase 2: RAG System
+- [x] Complete FAISS-based semantic search implementation
+- [x] Async document processing pipeline
+- [x] FAISS vector store with similarity scoring
+- [x] Sentence-Transformers embeddings generation
+- [x] Context retrieval with rich formatting
+- [x] Document upload and background processing
+- [x] Production-ready RAG system integration
 
 ### ⏳ Phase 3: Advanced Features (Planned)
 - [ ] Streaming responses
 - [ ] Conversation memory
-- [ ] File upload processing
 - [ ] Multi-modal support
 
-## 🔧 Development Guide
-
-### Project Structure
-```
-henry_bot_M2/
-├── src/
-│   ├── core/                    # Core business logic
-│   │   ├── agent.py            # Main orchestrator
-│   │   ├── config.py           # Configuration
-│   │   └── exceptions.py       # Custom exceptions
-│   ├── modules/                 # Modular components
-│   │   ├── api/                # FastAPI server
-│   │   ├── rag/                # RAG system (P2)
-│   │   ├── prompting/          # Prompt engineering
-│   │   ├── metrics/            # Performance tracking
-│   │   └── logging/            # Logging infrastructure
-│   └── main.py                 # Application entry point
-├── test_api.py                 # Python test suite
-├── quick_test.sh               # Bash test script
-├── API_TESTING_GUIDE.md        # Testing documentation
-└── henry_bot_postman_collection.json  # Postman tests
-```
-
-### Code Quality Standards
-- **Type Hints**: Full type annotation coverage
-- **Error Handling**: Comprehensive exception handling
-- **Logging**: Structured logging with correlation IDs
-- **Testing**: Complete API test coverage
-- **Documentation**: Auto-generated OpenAPI specs
-
-### Common Development Tasks
-```bash
-# Start development server
-python -m src.main server
-
-# Run tests
-./quick_test.sh
-python3 test_api.py
-
-# Check system status
-python -m src.main status
-
-# View logs
-tail -f logs/app.log
-tail -f logs/metrics.csv
-```
+---
 
 ## 🚨 Troubleshooting
 
@@ -474,20 +483,10 @@ tail -f logs/metrics.csv
 **Command**: `source venv/bin/activate && pip install -r requirements.txt`
 
 ### Getting Help
-- **Documentation**: See `API_TESTING_GUIDE.md` for detailed testing
 - **API Reference**: Visit `/docs` endpoint for interactive documentation
 - **Logs**: Check `logs/app.log` for detailed error information
 
 ---
-
-## 🛡️ Security Features
-
-- **API Authentication**: Secure key-based access control
-- **Rate Limiting**: Prevent abuse with configurable limits (default: 60/minute)
-- **Input Validation**: Comprehensive request validation with Pydantic
-- **Security Headers**: CSRF, XSS protection headers
-- **Adversarial Detection**: Advanced prompt injection protection
-- **Error Sanitization**: No sensitive information in error responses
 
 ## 📚 Additional Resources
 
@@ -513,7 +512,6 @@ Developed by [Esteban Camargo](https://github.com/estebmaister)
 
 ### Project Status
 - ✅ **Production Ready**: Core functionality complete and tested
-- 🔄 **Active Development**: RAG system implementation in progress
 - 📈 **Roadmap**: Clear development phases planned
 - 🐛 **Issues Welcome**: Report bugs and feature requests
 

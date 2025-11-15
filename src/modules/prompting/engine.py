@@ -19,7 +19,8 @@ class PromptBuilder:
     def _get_system_prompt(self) -> str:
         """Get the system prompt from file or use default."""
         try:
-            prompt_path = Path(__file__).parent / "templates" / "system_prompt.txt"
+            prompt_path = Path(__file__).parent / \
+                "templates" / "system_prompt.txt"
             if prompt_path.exists():
                 return prompt_path.read_text(encoding="utf-8").strip()
         except Exception:
@@ -110,7 +111,8 @@ Always respond in valid JSON format. Be concise but thorough."""
         Returns:
             List of message dictionaries formatted for the OpenRouter API
         """
-        system_prompt = self.system_prompt + "\nRespond with JSON in this format: {\"answer\": \"your answer here\"}"
+        system_prompt = self.system_prompt + \
+            "\nRespond with JSON in this format: {\"answer\": \"your answer here\"}"
 
         if rag_context:
             system_prompt += "\n\nUse the provided context to answer the user's question accurately. If the context doesn't contain the answer, say so clearly."

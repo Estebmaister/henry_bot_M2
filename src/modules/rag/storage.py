@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime
 import json
 from pathlib import Path
+import faiss
 
 
 @dataclass
@@ -146,13 +147,6 @@ class FAISSVectorStore(VectorStore):
 
     async def initialize(self) -> None:
         """Initialize FAISS index."""
-        try:
-            import faiss
-        except ImportError:
-            raise ImportError(
-                "FAISS package is required. Install with: pip install faiss-cpu or faiss-gpu"
-            )
-
         # Create index
         # Inner product for cosine similarity
         self.index = faiss.IndexFlatIP(self.dimension)

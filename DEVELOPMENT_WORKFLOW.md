@@ -20,7 +20,7 @@ This guide outlines the complete development workflow for Henry Bot M2, a produc
 │         Infrastructure Layer            │  ← External services
 │  ┌─────────────┐  ┌─────────────────┐   │
 │  │     LLM     │  │      RAG        │   │
-│  │ Integration │  │   System (P2)   │   │
+│  │ Integration │  │     System.     │   │
 │  └─────────────┘  └─────────────────┘   │
 └─────────────────────────────────────────┘
 ```
@@ -54,13 +54,10 @@ pip install -r requirements.txt
 
 # 3. Configure environment
 cp .env.example .env
-# Edit .env with your API keys
+# Edit .env with your OpenRouter API keys
 
 # 4. Start development server
 python -m src.main server
-
-# 5. Run tests
-./quick_test.sh
 ```
 
 ## 🔄 Development Workflow
@@ -113,14 +110,11 @@ def process_question(
 
 #### 2.1 Run Local Tests
 ```bash
-# Quick test of all endpoints
-./quick_test.sh
-
 # Comprehensive test suite
-python3 test_api.py
+python3 ./tests/...
 
 # Test specific functionality
-python3 test_api.py --test chat
+python3 ./tests/... --test chat
 ```
 
 #### 2.2 Manual Testing Checklist
@@ -135,7 +129,7 @@ python3 test_api.py --test chat
 ```bash
 # Test response times
 time curl -X POST "http://0.0.0.0:8000/api/v1/chat" \
-  -H "X-API-Key: your-secret-api-key-here" \
+  -H "X-API-Key: henry_bot_8285994a7534ff6bfc6db2698ce8203d" \
   -H "Content-Type: application/json" \
   -d '{"question": "Test question", "prompt_technique": "simple"}'
 ```
@@ -173,7 +167,7 @@ time curl -X POST "http://0.0.0.0:8000/api/v1/chat" \
 #### 4.2 Pre-deployment Testing
 ```bash
 # Full test suite
-python3 test_api.py
+python3 ./tests/...
 
 # Docker testing
 docker build -t henry-bot-m2-test .
@@ -210,21 +204,6 @@ git push origin main --tags
         ├─────────────────┤
         │   Unit Tests    │  ← Many, focused tests (planned)
         └─────────────────┘
-```
-
-### Current Testing Tools
-1. **`quick_test.sh`** - Fast endpoint verification
-2. **`test_api.py`** - Comprehensive API testing
-3. **`henry_bot_postman_collection.json`** - Visual testing
-4. **Manual testing** - Interactive documentation
-
-### Adding New Tests
-```python
-# When adding new endpoints, update:
-# 1. test_api.py - Add new test methods
-# 2. quick_test.sh - Add curl commands
-# 3. Postman collection - Add new requests
-# 4. API_TESTING_GUIDE.md - Document new tests
 ```
 
 ## 📝 Development Patterns
@@ -363,15 +342,7 @@ tail -f logs/app.log
 tail -f logs/metrics.csv
 ```
 
-### 2. Isolate the Problem
-```bash
-# Test individual components
-python3 test_api.py --test health
-python3 test_api.py --test auth
-python3 test_api.py --test chat
-```
-
-### 3. Debug Step by Step
+### 2. Debug Step by Step
 ```bash
 # Test with minimal configuration
 export MODEL_NAME="simple-model"
@@ -382,10 +353,10 @@ export API_KEY="test-key"
 ./quick_test.sh
 ```
 
-### 4. Common Fixes
+### 3. Common Fixes
 ```bash
 # Restart server after config changes
-pkill -f "python -m src.main"
+pkill -f "python -m src.main" # or lsof -ti:8000 | xargs kill -9
 python -m src.main server
 
 # Clear cached data
@@ -419,18 +390,6 @@ touch logs/app.log
 # Dependency updates
 pip list --outdated
 pip install --upgrade package-name
-```
-
-### Performance Monitoring
-```bash
-# Monitor response times
-./quick_test.sh | grep "Response time"
-
-# Check error rates
-grep "ERROR" logs/app.log | wc -l
-
-# Track API usage
-tail -f logs/metrics.csv | awk -F, '{print $1","$2}'
 ```
 
 ## 🎯 Development Best Practices
@@ -473,10 +432,6 @@ tail -f logs/metrics.csv | awk -F, '{print $1","$2}'
 ```bash
 # Start development server
 python -m src.main server
-
-# Run tests
-./quick_test.sh
-python3 test_api.py
 
 # Check status
 python -m src.main status

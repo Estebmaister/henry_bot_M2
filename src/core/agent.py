@@ -92,7 +92,8 @@ class HenryBot:
             prompt_technique = self.prompting_technique
 
         # Step 1: Check for adversarial prompts (inherited from M1)
-        is_adversarial, adversarial_response = check_adversarial_prompt(user_question)
+        is_adversarial, adversarial_response = check_adversarial_prompt(
+            user_question)
         if is_adversarial:
             return adversarial_response
 

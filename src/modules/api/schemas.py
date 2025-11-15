@@ -19,25 +19,29 @@ class MetricsSchema(BaseModel):
 class RAGSchema(BaseModel):
     """Schema for RAG system information."""
     context_used: bool = Field(..., description="Whether RAG context was used")
-    retrieval_score: Optional[float] = Field(None, description="RAG retrieval similarity score")
+    retrieval_score: Optional[float] = Field(
+        None, description="RAG retrieval similarity score")
     context_length: int = Field(..., description="Length of retrieved context")
-    context_preview: str = Field(..., description="Preview of retrieved context")
+    context_preview: str = Field(...,
+                                 description="Preview of retrieved context")
 
 
 class ChatRequest(BaseModel):
     """Schema for chat requests."""
-    question: str = Field(..., min_length=1, max_length=2000, description="User's question")
+    question: str = Field(..., min_length=1, max_length=2000,
+                          description="User's question")
     prompt_technique: Optional[str] = Field(
         "few_shot",
         description="Prompting technique to use",
         pattern="^(few_shot|simple|chain_of_thought)$"
     )
-    use_rag: Optional[bool] = Field(True, description="Whether to use RAG system")
+    use_rag: Optional[bool] = Field(
+        True, description="Whether to use RAG system")
 
     model_config = {
         "json_schema_extra": {
             "example": {
-                "question": "What is the capital of France?",
+                "question": "Tell me about the Pandora Experience program.",
                 "prompt_technique": "few_shot",
                 "use_rag": True
             }
@@ -48,27 +52,31 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     """Schema for chat responses."""
     answer: str = Field(..., description="AI-generated answer")
-    reasoning: Optional[str] = Field(None, description="Reasoning for complex answers")
+    reasoning: Optional[str] = Field(
+        None, description="Reasoning for complex answers")
     metrics: MetricsSchema = Field(..., description="Performance metrics")
-    rag: Optional[RAGSchema] = Field(None, description="RAG system information")
-    timestamp: datetime = Field(default_factory=datetime.now, description="Response timestamp")
+    rag: Optional[RAGSchema] = Field(
+        None, description="RAG system information")
+    timestamp: datetime = Field(
+        default_factory=datetime.now, description="Response timestamp")
 
     model_config = {
         "json_schema_extra": {
             "example": {
-                "answer": "Paris",
-                "reasoning": "Paris is the capital and most populous city of France.",
+                "answer": "Pandora Experience is a personal transformation experience that integrates conscious breathing, guided meditation, and ice immersion therapy. It is designed for individuals undergoing change, feeling emotionally stuck, or seeking to enhance their resilience and mental focus. It helps to release fear, unlock repressed emotions, and reconnect with inner strength. The experience focuses on transforming pain into clarity, strength, and peace by embracing discomfort and discovering strength in vulnerability.",
+                "reasoning": "null",
                 "metrics": {
-                    "latency_ms": 745,
-                    "tokens_total": 67,
-                    "cost_usd": 0.00020
+                    "latency_ms": 1695,
+                    "tokens_total": 710,
+                    "cost_usd": 0
                 },
                 "rag": {
-                    "context_used": True,
-                    "retrieval_score": 0.85,
-                    "context_length": 1500,
-                    "context_preview": "Paris is the capital city of France..."
-                }
+                    "context_used": "true",
+                    "retrieval_score": 0.34603750705718994,
+                    "context_length": 1814,
+                    "context_preview": "[Source: ¿QUÉ ES PANDORA EXPERIENCE_.docx]\n¿QUÉ ES PANDORA EXPERIENCE? 🌬️ UNA EXPERIENCIA QUE TRANSFORMA EL FRÍO EN CLARIDAD Pandora Experience es una jornada vivencial de transformación personal que..."
+                },
+                "timestamp": "2025-11-15T13:35:33.863763"
             }
         }
     }
@@ -78,10 +86,14 @@ class DocumentUploadResponse(BaseModel):
     """Schema for document upload responses."""
     success: bool = Field(..., description="Whether upload was successful")
     message: str = Field(..., description="Status message")
-    documents_processed: int = Field(..., description="Number of documents processed")
-    total_chunks: int = Field(..., description="Total number of text chunks created")
-    processing_time_ms: float = Field(..., description="Processing time in milliseconds")
-    errors: List[str] = Field(default_factory=list, description="Any processing errors")
+    documents_processed: int = Field(...,
+                                     description="Number of documents processed")
+    total_chunks: int = Field(...,
+                              description="Total number of text chunks created")
+    processing_time_ms: float = Field(...,
+                                      description="Processing time in milliseconds")
+    errors: List[str] = Field(default_factory=list,
+                              description="Any processing errors")
 
     model_config = {
         "json_schema_extra": {
@@ -101,8 +113,10 @@ class HealthResponse(BaseModel):
     """Schema for health check responses."""
     status: str = Field(..., description="System status")
     model: str = Field(..., description="LLM model being used")
-    rag_available: bool = Field(..., description="Whether RAG system is available")
-    prompting_technique: str = Field(..., description="Default prompting technique")
+    rag_available: bool = Field(...,
+                                description="Whether RAG system is available")
+    prompting_technique: str = Field(...,
+                                     description="Default prompting technique")
     uptime_seconds: float = Field(..., description="System uptime in seconds")
     version: str = Field(..., description="API version")
 
@@ -123,8 +137,10 @@ class HealthResponse(BaseModel):
 class ErrorResponse(BaseModel):
     """Schema for error responses."""
     error: str = Field(..., description="Error message")
-    details: Optional[Dict[str, Any]] = Field(None, description="Additional error details")
-    timestamp: datetime = Field(default_factory=datetime.now, description="Error timestamp")
+    details: Optional[Dict[str, Any]] = Field(
+        None, description="Additional error details")
+    timestamp: datetime = Field(
+        default_factory=datetime.now, description="Error timestamp")
 
     model_config = {
         "json_schema_extra": {
@@ -139,9 +155,12 @@ class ErrorResponse(BaseModel):
 
 class AdversarialResponse(BaseModel):
     """Schema for adversarial prompt detection responses."""
-    error: str = Field(..., description="Error message for adversarial prompts")
-    adversarial_info: Optional[Dict[str, Any]] = Field(None, description="Adversarial detection info")
-    timestamp: datetime = Field(default_factory=datetime.now, description="Response timestamp")
+    error: str = Field(...,
+                       description="Error message for adversarial prompts")
+    adversarial_info: Optional[Dict[str, Any]] = Field(
+        None, description="Adversarial detection info")
+    timestamp: datetime = Field(
+        default_factory=datetime.now, description="Response timestamp")
 
     model_config = {
         "json_schema_extra": {
@@ -161,29 +180,47 @@ class DocumentProcessingStatus(BaseModel):
     """Schema for individual document processing status."""
     document_id: str = Field(..., description="Document ID")
     filename: str = Field(..., description="Original filename")
-    status: str = Field(..., description="Processing status: pending, processing, completed, failed")
+    status: str = Field(...,
+                        description="Processing status: pending, processing, completed, failed")
     document_type: str = Field(..., description="Document type")
-    chunk_count: int = Field(default=0, description="Number of chunks generated")
-    embedding_status: str = Field(default="pending", description="Embedding generation status")
-    created_at: datetime = Field(..., description="Document creation timestamp")
-    processing_started_at: Optional[datetime] = Field(None, description="Processing start time")
-    completed_at: Optional[datetime] = Field(None, description="Completion timestamp")
-    error_message: Optional[str] = Field(None, description="Error message if failed")
+    chunk_count: int = Field(
+        default=0, description="Number of chunks generated")
+    embedding_status: str = Field(
+        default="pending", description="Embedding generation status")
+    created_at: datetime = Field(...,
+                                 description="Document creation timestamp")
+    processing_started_at: Optional[datetime] = Field(
+        None, description="Processing start time")
+    completed_at: Optional[datetime] = Field(
+        None, description="Completion timestamp")
+    error_message: Optional[str] = Field(
+        None, description="Error message if failed")
 
 
 class PipelineStatusResponse(BaseModel):
     """Schema for RAG pipeline status responses."""
-    pipeline_status: str = Field(..., description="Overall pipeline status: idle, processing, completed")
-    total_documents: int = Field(..., description="Total documents in the system")
-    processing_documents: int = Field(..., description="Number of documents currently being processed")
-    completed_documents: int = Field(..., description="Number of successfully processed documents")
-    failed_documents: int = Field(..., description="Number of failed document processing attempts")
-    total_chunks: int = Field(..., description="Total chunks generated across all documents")
-    total_embeddings: int = Field(..., description="Total embeddings generated")
-    storage_status: Dict[str, bool] = Field(..., description="Status of storage components")
-    recent_documents: List[DocumentProcessingStatus] = Field(..., description="Recently processed documents")
-    uptime_seconds: Optional[float] = Field(None, description="Server uptime in seconds")
-    last_updated: datetime = Field(default_factory=datetime.now, description="Status last updated timestamp")
+    pipeline_status: str = Field(
+        ..., description="Overall pipeline status: idle, processing, completed")
+    total_documents: int = Field(...,
+                                 description="Total documents in the system")
+    processing_documents: int = Field(
+        ..., description="Number of documents currently being processed")
+    completed_documents: int = Field(
+        ..., description="Number of successfully processed documents")
+    failed_documents: int = Field(...,
+                                  description="Number of failed document processing attempts")
+    total_chunks: int = Field(...,
+                              description="Total chunks generated across all documents")
+    total_embeddings: int = Field(...,
+                                  description="Total embeddings generated")
+    storage_status: Dict[str,
+                         bool] = Field(..., description="Status of storage components")
+    recent_documents: List[DocumentProcessingStatus] = Field(
+        ..., description="Recently processed documents")
+    uptime_seconds: Optional[float] = Field(
+        None, description="Server uptime in seconds")
+    last_updated: datetime = Field(
+        default_factory=datetime.now, description="Status last updated timestamp")
 
     model_config = {
         "json_schema_extra": {
@@ -226,7 +263,8 @@ class APIKeyResponse(BaseModel):
     api_key: str = Field(..., description="Generated API key")
     status: str = Field(..., description="Status of the API key generation")
     message: str = Field(..., description="Status message")
-    created_at: datetime = Field(default_factory=datetime.now, description="API key creation timestamp")
+    created_at: datetime = Field(
+        default_factory=datetime.now, description="API key creation timestamp")
 
     model_config = {
         "json_schema_extra": {
