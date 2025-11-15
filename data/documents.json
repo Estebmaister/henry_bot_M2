@@ -1,0 +1,15 @@
+{
+  "e86a7633-4157-4c44-b443-586a410ed6f4": {
+    "document_id": "e86a7633-4157-4c44-b443-586a410ed6f4",
+    "source": "/var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/tmplsnlhmjo.txt",
+    "document_type": "text",
+    "chunk_count": 1,
+    "metadata": {
+      "processed_at": "2025-11-14T23:38:31.742901",
+      "chunking_strategy": "sliding_window",
+      "embedding_model": "all-MiniLM-L6-v2"
+    },
+    "created_at": "2025-11-14T23:38:31.742916",
+    "updated_at": "2025-11-14T23:38:31.742917"
+  }
+}

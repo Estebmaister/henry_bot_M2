@@ -7,6 +7,7 @@ and storage with comprehensive error handling and progress tracking.
 
 import asyncio
 import uuid
+from docx import Document
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Union, AsyncGenerator
 from dataclasses import dataclass, field
@@ -81,7 +82,8 @@ class ProcessedDocument:
             "processing_time_ms": self.processing_time_ms,
             "success": self.success,
             "error_message": self.error_message,
-            "chunks": [chunk.to_dict() for chunk in self.chunks[:5]],  # Limit chunks in serialization
+            # Limit chunks in serialization
+            "chunks": [chunk.to_dict() for chunk in self.chunks[:5]],
         }
 
 
@@ -161,7 +163,8 @@ class DocumentProcessor:
             document_type = self._detect_document_type(source)
 
         try:
-            logger.info(f"Processing document: {source} ({document_type.value})")
+            logger.info(
+                f"Processing document: {source} ({document_type.value})")
 
             # Step 1: Chunk the document
             chunks = await self._chunk_document(
@@ -196,7 +199,8 @@ class DocumentProcessor:
                     chunks=chunks
                 )
 
-            processing_time = (datetime.now() - start_time).total_seconds() * 1000
+            processing_time = (
+                datetime.now() - start_time).total_seconds() * 1000
 
             result = ProcessedDocument(
                 document_id=document_id,
@@ -211,11 +215,13 @@ class DocumentProcessor:
             # Update statistics
             await self._update_stats(result)
 
-            logger.info(f"Successfully processed document: {source} - {len(chunks)} chunks")
+            logger.info(
+                f"Successfully processed document: {source} - {len(chunks)} chunks")
             return result
 
         except Exception as e:
-            processing_time = (datetime.now() - start_time).total_seconds() * 1000
+            processing_time = (
+                datetime.now() - start_time).total_seconds() * 1000
             error_message = str(e)
 
             result = ProcessedDocument(
@@ -231,7 +237,8 @@ class DocumentProcessor:
             # Update error statistics
             await self._update_stats(result)
 
-            logger.error(f"Failed to process document {source}: {error_message}")
+            logger.error(
+                f"Failed to process document {source}: {error_message}")
             return result
 
     async def process_file(
@@ -257,7 +264,8 @@ class DocumentProcessor:
             raise FileNotFoundError(f"File not found: {file_path}")
 
         # Detect document type from file extension
-        document_type = self._detect_document_type_from_extension(file_path.suffix)
+        document_type = self._detect_document_type_from_extension(
+            file_path.suffix)
 
         # Read file content
         content = await self._read_file_content(file_path, document_type)
@@ -401,6 +409,10 @@ class DocumentProcessor:
             return DocumentType.MARKDOWN
         elif source_lower.endswith('.pdf'):
             return DocumentType.PDF
+        elif source_lower.endswith('.docx'):
+            return DocumentType.DOCX
+        elif source_lower.endswith('.txt') or source_lower.endswith('.text'):
+            return DocumentType.TEXT
         else:
             return DocumentType.TEXT
 
@@ -427,7 +439,6 @@ class DocumentProcessor:
         elif document_type == DocumentType.DOCX:
             # Extract text from DOCX files
             try:
-                from docx import Document
                 doc = Document(file_path)
                 full_text = []
 
@@ -453,7 +464,8 @@ class DocumentProcessor:
                     "Install with: pip install python-docx"
                 )
             except Exception as e:
-                raise ValueError(f"Failed to read DOCX file {file_path}: {str(e)}")
+                raise ValueError(
+                    f"Failed to read DOCX file {file_path}: {str(e)}")
         else:
             # Simple text file reading
             try:
@@ -479,8 +491,10 @@ class DocumentProcessor:
 
                 # Update type-specific statistics
                 doc_type = result.document_type.value
-                self.stats.documents_by_type[doc_type] = self.stats.documents_by_type.get(doc_type, 0) + 1
-                self.stats.chunks_by_type[doc_type] = self.stats.chunks_by_type.get(doc_type, 0) + len(result.chunks)
+                self.stats.documents_by_type[doc_type] = self.stats.documents_by_type.get(
+                    doc_type, 0) + 1
+                self.stats.chunks_by_type[doc_type] = self.stats.chunks_by_type.get(
+                    doc_type, 0) + len(result.chunks)
 
                 self.stats.total_processing_time_ms += result.processing_time_ms
             else:
@@ -546,14 +560,16 @@ def create_document_processor(**kwargs) -> DocumentProcessor:
         vector_store = create_vector_store(
             store_type=kwargs.get("vector_store_type", "faiss"),
             dimension=kwargs.get("embedding_dimension", 384),
-            index_path=kwargs.get("vector_store_path", "./data/vector_store.faiss")
+            index_path=kwargs.get("vector_store_path",
+                                  "./data/vector_store.faiss")
         )
 
     document_store = kwargs.get("document_store")
     if not document_store:
         document_store = create_document_store(
             store_type=kwargs.get("document_store_type", "json"),
-            storage_path=kwargs.get("document_store_path", "./data/documents.json")
+            storage_path=kwargs.get(
+                "document_store_path", "./data/documents.json")
         )
 
     # Create chunk store for visibility

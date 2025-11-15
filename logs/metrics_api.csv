@@ -216,3 +216,24 @@ timestamp,endpoint,method,user_agent,ip_address,response_status,response_time_ms
 2025-11-14T22:28:15.687393,/api/v1/documents,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,6234
 2025-11-14T22:44:39.228513,/api/v1/documents,POST,curl/8.7.1,127.0.0.1,200,4429
 2025-11-14T22:45:51.373697,/api/v1/pipeline/status,GET,curl/8.7.1,127.0.0.1,200,4
+2025-11-14T23:25:18.615170,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T23:25:18.726255,/favicon.ico,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,204,0
+2025-11-14T23:25:26.410151,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T23:25:26.591595,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,21
+2025-11-14T23:34:07.300975,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T23:34:07.478302,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,24
+2025-11-14T23:34:23.281805,/api/v1/documents,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2468
+2025-11-14T23:38:29.804842,/api/v1/documents,POST,curl/8.7.1,127.0.0.1,200,1939
+2025-11-14T23:39:42.333364,/docs,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T23:39:42.488161,/openapi.json,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,16
+2025-11-14T23:39:48.397936,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,401,0
+2025-11-14T23:39:54.187062,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T23:40:02.538791,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-14T23:47:32.768539,/api/v1/pipeline/status,GET,curl/8.7.1,127.0.0.1,200,1
+2025-11-15T00:11:19.021463,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,21
+2025-11-15T00:11:22.178111,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,3
+2025-11-15T00:11:55.195333,/api/v1/documents,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1834
+2025-11-15T00:19:38.308425,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,29
+2025-11-15T00:20:34.841735,/api/v1/documents,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2384
+2025-11-15T00:29:17.195068,/api/v1/documents,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2396
+2025-11-15T00:31:57.619007,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,20

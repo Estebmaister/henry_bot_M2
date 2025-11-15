@@ -5,6 +5,13 @@ Provides RESTful API endpoints with automatic Swagger documentation,
 authentication, and RAG-augmented chat functionality.
 """
 
+import tempfile
+import os
+import time
+import asyncio
+import json
+import logging
+from datetime import datetime
 from .schemas import (
     ChatRequest, ChatResponse, DocumentUploadResponse, HealthResponse,
     ErrorResponse, AdversarialResponse, APIKeyResponse, PipelineStatusResponse,
@@ -15,23 +22,39 @@ from .middleware import (
     URLNormalizationMiddleware, RateLimitMiddleware,
     RequestLoggingMiddleware, SecurityHeadersMiddleware
 )
-import time
-import secrets
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request, Depends, File, UploadFile, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-import json
-from datetime import datetime
 
 from src.core.config import settings
 from src.core.agent import HenryBot
 from src.core.exceptions import HenryBotError
-import logging
 
 # Get logger for this module
 logger = logging.getLogger(__name__)
+
+# Global shared processor for background tasks
+_shared_processor = None
+_shared_processor_lock = None
+
+
+async def get_shared_processor():
+    """Get or create the shared document processor for background tasks."""
+    global _shared_processor, _shared_processor_lock
+
+    if _shared_processor is None:
+        if _shared_processor_lock is None:
+            _shared_processor_lock = asyncio.Lock()
+
+        async with _shared_processor_lock:
+            if _shared_processor is None:
+                from ..rag.processor import create_document_processor
+                _shared_processor = create_document_processor()
+                await _shared_processor.initialize()
+
+    return _shared_processor
 
 
 def generate_api_key() -> str:
@@ -42,6 +65,7 @@ def generate_api_key() -> str:
         A secure random API key with 'henry_bot_' prefix
     """
     # Generate 32 bytes of random data and convert to hex
+    # import secrets
     # random_part = secrets.token_hex(16)
     # return f"henry_bot_{random_part}"
     return settings.api_key  # Use configured API key for simplicity
@@ -370,57 +394,23 @@ def register_routes(app: FastAPI):
                     })
                     continue
 
-                # Read file content
+                # Read file content (only async file read, no processing)
                 try:
                     content = await file.read()
 
-                    if file_extension == 'docx':
-                        # Save DOCX file temporarily
-                        import tempfile
-                        import os
-                        from pathlib import Path
-                        import uuid
-
-                        docx_id = str(uuid.uuid4())
-                        temp_file_path = f"/tmp/{docx_id}.docx"
-
-                        with open(temp_file_path, 'wb') as temp_file:
-                            temp_file.write(content)
-
-                        # Read DOCX content
-                        from src.modules.rag.processor import create_document_processor
-                        processor = create_document_processor()
-                        await processor.initialize()
-
-                        from src.modules.rag.chunking import DocumentType
-                        document_type = DocumentType.DOCX
-
-                        file_content = await processor._read_file_content(
-                            Path(temp_file_path), document_type
-                        )
-
-                        # Clean up temporary file
-                        os.unlink(temp_file_path)
-                    else:
-                        file_content = content.decode('utf-8').strip()
-
-                    if not file_content:
+                    # Basic validation only
+                    if not content:
                         rejected_files.append({
                             "filename": file.filename,
                             "error": "File is empty"
                         })
                         continue
 
-                    # Add to background processing queue
-                    from src.modules.rag.processor import create_document_processor
-                    processor = create_document_processor()
-                    await processor.initialize()
-
                     # Generate unique document ID
                     import uuid
                     document_id = str(uuid.uuid4())
 
-                    # Add file to accepted list
+                    # Add file to accepted list for background processing
                     accepted_files.append({
                         "document_id": document_id,
                         "filename": file.filename,
@@ -440,11 +430,9 @@ def register_routes(app: FastAPI):
             # Trigger background processing
             if accepted_files:
                 # Create background task for each file
-                import asyncio
                 for file_data in accepted_files:
                     asyncio.create_task(
                         _process_document_background(
-                            app_state["bot"].document_processor,
                             file_data["document_id"],
                             file_data["filename"],
                             file_data["file_content"],
@@ -660,7 +648,6 @@ def register_routes(app: FastAPI):
 
     # Background processing function
     async def _process_document_background(
-        document_processor,
         document_id: str,
         filename: str,
         file_content,  # bytes for all files
@@ -675,8 +662,8 @@ def register_routes(app: FastAPI):
         RAG pipeline processes the document in the background.
         """
         try:
-            import tempfile
-            import os
+            # Get shared processor (initialize once only)
+            processor = await get_shared_processor()
 
             # Create temporary file for processing
             # Handle binary vs text files properly
@@ -686,6 +673,7 @@ def register_routes(app: FastAPI):
                     mode='w',
                     delete=False,
                     suffix=f".{file_extension}" if file_extension else ".tmp",
+                    prefix=filename,
                     encoding='utf-8'
                 ) as temp_file:
                     if isinstance(file_content, bytes):
@@ -718,7 +706,7 @@ def register_routes(app: FastAPI):
                     }
                 )
 
-                result = await document_processor.process_file(
+                result = await processor.process_file(
                     file_path=temp_file_path,
                     store_embeddings=True
                 )
