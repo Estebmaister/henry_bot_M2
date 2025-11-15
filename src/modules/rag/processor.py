@@ -7,12 +7,12 @@ and storage with comprehensive error handling and progress tracking.
 
 import asyncio
 import uuid
+import logging
 from docx import Document
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Union, AsyncGenerator
 from dataclasses import dataclass, field
 from datetime import datetime
-import logging
 
 from .chunking import ChunkingStrategy, DocumentChunk, DocumentType, create_chunker
 from .embeddings import EmbeddingService, EmbeddingResult, create_embedding_service
@@ -344,13 +344,19 @@ class DocumentProcessor:
         **kwargs
     ) -> List[DocumentChunk]:
         """Chunk document using the configured strategy."""
-        return self.chunking_strategy.chunk_document(
-            document_content=content,
-            document_id=document_id,
-            document_source=source,
-            document_type=document_type,
-            **kwargs
-        )
+        # Run the synchronous chunking in a thread pool to avoid blocking
+        def sync_chunk():
+            return self.chunking_strategy.chunk_document(
+                document_content=content,
+                document_id=document_id,
+                document_source=source,
+                document_type=document_type,
+                **kwargs
+            )
+
+        # Execute in thread pool to avoid blocking the event loop
+        chunks = await asyncio.get_event_loop().run_in_executor(None, sync_chunk)
+        return chunks
 
     async def _generate_embeddings(self, chunks: List[DocumentChunk]) -> EmbeddingResult:
         """Generate embeddings for document chunks."""

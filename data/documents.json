@@ -11,5 +11,18 @@
     },
     "created_at": "2025-11-14T23:38:31.742916",
     "updated_at": "2025-11-14T23:38:31.742917"
+  },
+  "13605eb5-7c1b-403e-b243-752a26b1951f": {
+    "document_id": "13605eb5-7c1b-403e-b243-752a26b1951f",
+    "source": "/var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtyl76_4k3.txt",
+    "document_type": "text",
+    "chunk_count": 4,
+    "metadata": {
+      "processed_at": "2025-11-15T01:30:19.433361",
+      "chunking_strategy": "sliding_window",
+      "embedding_model": "all-MiniLM-L6-v2"
+    },
+    "created_at": "2025-11-15T01:30:19.433369",
+    "updated_at": "2025-11-15T01:30:19.433370"
   }
 }

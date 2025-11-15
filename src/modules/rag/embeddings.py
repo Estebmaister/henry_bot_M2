@@ -139,7 +139,7 @@ class SentenceTransformerModel(EmbeddingModel):
     def __init__(self, config: EmbeddingConfig):
         super().__init__(config)
         self.model = None
-        self.executor = ThreadPoolExecutor(max_workers=1)
+        # REMOVE: self.executor = ThreadPoolExecutor(max_workers=1)
 
     async def initialize(self) -> None:
         """Initialize the sentence transformer model."""
@@ -150,16 +150,18 @@ class SentenceTransformerModel(EmbeddingModel):
             # Import here to avoid dependency issues if not needed
             from sentence_transformers import SentenceTransformer
 
-            # Initialize model in thread pool to avoid blocking
-            loop = asyncio.get_event_loop()
-            self.model = await loop.run_in_executor(
-                self.executor,
-                lambda: SentenceTransformer(
-                    self.model_name,
-                    device=self.config.device,
-                    **self.config.model_kwargs
-                )
+            # Load model synchronously - it's a one-time operation
+            # Running in the main thread avoids segfault issues
+            self.model = SentenceTransformer(
+                self.model_name,
+                device=self.config.device,
+                **self.config.model_kwargs
             )
+
+            # Set number of threads to avoid conflicts
+            import torch
+            torch.set_num_threads(1)
+
             self.is_initialized = True
 
         except ImportError:
@@ -182,13 +184,9 @@ class SentenceTransformerModel(EmbeddingModel):
 
         start_time = time.time()
 
-        # Process in thread pool to avoid blocking
-        loop = asyncio.get_event_loop()
-        embeddings = await loop.run_in_executor(
-            self.executor,
-            self._encode_batch,
-            texts
-        )
+        # Use asyncio.to_thread() instead of ThreadPoolExecutor
+        # This is safer and avoids segfaults
+        embeddings = await asyncio.to_thread(self._encode_batch, texts)
 
         processing_time = (time.time() - start_time) * 1000
 
@@ -214,7 +212,8 @@ class SentenceTransformerModel(EmbeddingModel):
             texts,
             batch_size=self.config.batch_size,
             normalize_embeddings=self.config.normalize_embeddings,
-            show_progress_bar=False
+            show_progress_bar=False,
+            convert_to_numpy=True  # Ensure numpy output
         )
         return np.array(embeddings)
 

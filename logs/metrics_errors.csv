@@ -14,3 +14,5 @@
 2025-11-14T13:18:35.719095,RAGRetrievalError,object NoneType can't be used in 'await' expression,google/gemini-2.0-flash-exp:free,What is 2+2?,,False
 2025-11-14T14:42:29.340567,RateLimitError,"Error code: 429 - {'error': {'message': 'Provider returned error', 'code': 429, 'metadata': {'raw': 'google/gemini-2.0-flash-exp:free is temporarily r",google/gemini-2.0-flash-exp:free,test,Traceback (most recent call last):,False
 2025-11-14T14:45:53.653895,RAGRetrievalError,object NoneType can't be used in 'await' expression,google/gemini-2.0-flash-exp:free,What is the capital of France?,,False
+2025-11-15T01:31:43.034640,RAGRetrievalError,object NoneType can't be used in 'await' expression,google/gemini-2.0-flash-exp:free,Hablame de pandora,,False
+2025-11-15T01:32:05.507766,RAGRetrievalError,object NoneType can't be used in 'await' expression,google/gemini-2.0-flash-exp:free,Hablame de pandora experience,,False

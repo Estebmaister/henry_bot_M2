@@ -56,7 +56,8 @@ class ChunkMetadata:
 
     # Keyword search metadata
     keywords: List[str] = field(default_factory=list)
-    named_entities: List[str] = field(default_factory=list)  # People, places, organizations
+    # People, places, organizations
+    named_entities: List[str] = field(default_factory=list)
     technical_terms: List[str] = field(default_factory=list)
 
     # Temporal information
@@ -241,28 +242,35 @@ class SlidingWindowChunker(ChunkingStrategy):
         if not document_content or not document_content.strip():
             return []
 
-        # Preprocess content based on document type
-        processed_content = self._preprocess_content(document_content, document_type)
-
-        # Generate chunks
+        processed_content = self._preprocess_content(
+            document_content, document_type)
         chunks = []
         start_pos = 0
         chunk_index = 0
 
         while start_pos < len(processed_content):
             # Determine end position for this chunk
-            end_pos = start_pos + self.chunk_size
+            end_pos = min(start_pos + self.chunk_size, len(processed_content))
 
             # If we're not at the end, try to find a good break point
             if end_pos < len(processed_content):
-                end_pos = self._find_break_point(processed_content, start_pos, end_pos)
+                end_pos = self._find_break_point(
+                    processed_content, start_pos, end_pos)
 
             # Extract chunk content
-            chunk_content = processed_content[start_pos:end_pos]
+            chunk_content = processed_content[start_pos:end_pos].strip()
+
+            # Calculate next start position BEFORE any continue statements
+            next_start_pos = end_pos - self.overlap_size
+
+            # Ensure we're making progress (prevent infinite loop)
+            if next_start_pos <= start_pos:
+                next_start_pos = start_pos + \
+                    max(1, self.chunk_size - self.overlap_size)
 
             # Skip if too small (unless it's the last chunk)
             if len(chunk_content) < self.min_chunk_size and end_pos < len(processed_content):
-                start_pos += self.chunk_size - self.overlap_size
+                start_pos = next_start_pos
                 continue
 
             # Create metadata
@@ -280,14 +288,10 @@ class SlidingWindowChunker(ChunkingStrategy):
             # Create chunk
             chunk = DocumentChunk(content=chunk_content, metadata=metadata)
             chunks.append(chunk)
-
-            # Move to next position with overlap
-            start_pos = end_pos - self.overlap_size
             chunk_index += 1
 
-            # Prevent infinite loop on very small content
-            if start_pos >= len(processed_content):
-                break
+            # Move to next position
+            start_pos = next_start_pos
 
         return chunks
 
@@ -411,11 +415,15 @@ class SlidingWindowChunker(ChunkingStrategy):
     def _extract_keywords_and_entities(
         self, content: str, document_type: DocumentType
     ) -> Tuple[List[str], List[str], List[str]]:
-        """Extract keywords, named entities, and technical terms."""
-        # Simple keyword extraction (can be enhanced with NLP libraries)
-        words = re.findall(r'\b\w+\b', content.lower())
+        """Extract keywords, named entities, and technical terms (optimized version)."""
+        # For performance, limit content analysis for large chunks
+        max_content_length = 2000  # Limit analysis to first 2000 chars
+        analysis_content = content[:max_content_length] if len(content) > max_content_length else content
 
-        # Filter common stop words
+        # Simple keyword extraction with performance optimization
+        words = re.findall(r'\b\w+\b', analysis_content.lower())
+
+        # Filter common stop words (limit to first 100 words for performance)
         stop_words = {
             'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
             'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'have',
@@ -423,34 +431,36 @@ class SlidingWindowChunker(ChunkingStrategy):
             'this', 'that', 'these', 'those', 'i', 'you', 'he', 'she', 'it', 'we', 'they'
         }
 
-        # Get word frequencies
+        # Get word frequencies (limit processing for performance)
         word_freq = {}
+        processed_words = 0
         for word in words:
+            if processed_words >= 200:  # Limit to first 200 words
+                break
             if len(word) > 2 and word not in stop_words:
                 word_freq[word] = word_freq.get(word, 0) + 1
+            processed_words += 1
 
-        # Get top keywords
-        keywords = [word for word, freq in sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:10]]
+        # Get top keywords (limit to 3 for performance)
+        keywords = [word for word, freq in sorted(word_freq.items(), key=lambda x: x[1], reverse=True)[:3]]
 
-        # Simple patterns for named entities (capitalized words)
-        named_entities = list(set(re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', content)))
+        # Simple patterns for named entities (limit matches for performance)
+        named_entities_matches = re.findall(r'\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b', analysis_content)
+        named_entities = list(set(named_entities_matches[:5]))
 
-        # Technical terms (can be enhanced with domain-specific dictionaries)
+        # Technical terms (limit patterns and matches for performance)
         technical_patterns = [
-            r'\b[A-Z]{2,}\b',  # Acronyms
-            r'\b\w+(?:_\w+)+\b',  # snake_case
-            r'\b\w+(?:-\w+)+\b',  # kebab-case
-            r'\b[a-z]+[A-Z]\w*\b',  # camelCase
+            r'\b[A-Z]{2,}\b',  # Acronyms only
         ]
 
         technical_terms = []
         for pattern in technical_patterns:
-            matches = re.findall(pattern, content)
+            matches = re.findall(pattern, analysis_content)
             technical_terms.extend(matches)
 
-        technical_terms = list(set(technical_terms))
+        technical_terms = list(set(technical_terms[:3]))
 
-        return keywords[:5], named_entities[:5], technical_terms[:5]
+        return keywords, named_entities, technical_terms
 
     def _is_code_block(self, content: str, document_type: DocumentType) -> bool:
         """Detect if content contains code blocks."""
@@ -543,7 +553,8 @@ def create_chunker(strategy: str = "sliding_window", **kwargs) -> ChunkingStrate
 
     if strategy not in strategies:
         available = ", ".join(strategies.keys())
-        raise ValueError(f"Unknown strategy '{strategy}'. Available: {available}")
+        raise ValueError(
+            f"Unknown strategy '{strategy}'. Available: {available}")
 
     chunker_class = strategies[strategy]
 

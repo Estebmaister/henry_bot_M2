@@ -26,3 +26,5 @@ timestamp,model,latency_ms,tokens_total,tokens_prompt,tokens_completion,cost_usd
 2025-11-14T13:18:41.829779,google/gemini-2.0-flash-exp:free,6110,214,198,16,0.0,few_shot,True,False,,,,,
 2025-11-14T14:42:29.340890,google/gemini-2.0-flash-exp:free,7436,0,0,0,0.0,simple,False,False,,,,,
 2025-11-14T14:46:00.205686,google/gemini-2.0-flash-exp:free,6551,210,198,12,0.0,few_shot,True,False,,,,,
+2025-11-15T01:31:46.042715,google/gemini-2.0-flash-exp:free,3007,280,195,85,0.0,few_shot,True,False,,,,,
+2025-11-15T01:32:09.586805,google/gemini-2.0-flash-exp:free,4078,219,196,23,0.0,few_shot,True,False,,,,,

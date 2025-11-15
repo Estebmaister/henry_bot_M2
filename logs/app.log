@@ -247,3 +247,144 @@
 2025-11-15 00:31:23,372 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
 2025-11-15 00:31:57,605 - faiss.loader - INFO - Loading faiss.
 2025-11-15 00:31:57,616 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 00:54:48,837 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 00:54:54,197 - faiss.loader - INFO - Loading faiss.
+2025-11-15 00:54:54,210 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 00:55:01,996 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 00:55:03,962 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 00:55:03,963 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 00:55:03,963 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 00:55:03,963 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 00:55:03,964 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtelqiao_n.txt (text)
+2025-11-15 00:55:03,964 - src.modules.rag.processor - INFO - Starting document chunking
+2025-11-15 00:56:58,207 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 00:57:35,032 - faiss.loader - INFO - Loading faiss.
+2025-11-15 00:57:35,042 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 00:57:44,320 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 00:57:46,478 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 00:57:46,478 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 00:57:46,478 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 00:57:46,478 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 00:57:46,478 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtlywhjyaj.txt (text)
+2025-11-15 00:57:46,478 - src.modules.rag.processor - INFO - Starting document chunking
+2025-11-15 01:01:41,011 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:01:48,813 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 01:01:50,747 - faiss.loader - INFO - Loading faiss.
+2025-11-15 01:01:50,768 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 01:01:50,771 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 01:01:50,771 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 01:01:50,771 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 01:01:50,771 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 01:01:50,772 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtfmntesvf.txt (text)
+2025-11-15 01:01:50,772 - src.modules.rag.processor - INFO - Starting document chunking 228a6fe8-39e9-4483-9b7b-57a5eca43416: ¿QUÉ ES PANDORA EXPERIENCE?
+
+🌬...
+2025-11-15 01:12:56,685 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:13:02,731 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 01:13:04,717 - faiss.loader - INFO - Loading faiss.
+2025-11-15 01:13:04,736 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 01:13:04,738 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 01:13:04,739 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 01:13:04,739 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 01:13:04,739 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 01:13:04,739 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txt64lt5yfg.txt (text)
+2025-11-15 01:13:04,739 - src.modules.rag.processor - INFO - Starting document chunking 5d4f17d4-6870-4e05-bb1f-01cb02ca87e3: ¿QUÉ ES PANDORA EXPERIENCE?
+
+🌬...
+2025-11-15 01:13:04,739 - src.modules.rag.processor - INFO - Calling chunking_strategy.chunk_document()
+2025-11-15 01:13:04,739 - src.modules.rag.processor - INFO - Running chunk_document() in thread pool to avoid blocking
+2025-11-15 01:13:04,741 - src.modules.rag.processor - INFO - chunk_document() completed in thread pool, generated 4 chunks
+2025-11-15 01:13:04,741 - src.modules.rag.processor - INFO - chunk_document() method completed in 0.00 seconds
+2025-11-15 01:13:04,741 - src.modules.rag.processor - INFO - Document chunking completed
+2025-11-15 01:13:04,741 - src.modules.rag.processor - INFO - Starting embedding generation
+2025-11-15 01:13:04,805 - src.modules.rag.processor - ERROR - Failed to process document /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txt64lt5yfg.txt: object of type 'EmbeddingResult' has no len()
+2025-11-15 01:13:04,805 - src.modules.api.server - INFO - Background processing completed successfully
+2025-11-15 01:21:19,688 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:21:22,388 - faiss.loader - INFO - Loading faiss.
+2025-11-15 01:21:22,398 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 01:21:29,078 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 01:21:30,997 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 01:21:30,998 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 01:21:30,998 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 01:21:30,999 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 01:21:30,999 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtr8oj5zw7.txt (text)
+2025-11-15 01:21:30,999 - src.modules.rag.processor - INFO - Starting document chunking d4352c8a-fdbd-4e39-bc6b-2ca0d7355665: ¿QUÉ ES PANDORA EXPERIENCE?
+
+🌬...
+2025-11-15 01:21:30,999 - src.modules.rag.processor - INFO - Calling chunking_strategy.chunk_document()
+2025-11-15 01:21:30,999 - src.modules.rag.processor - INFO - Running chunk_document() in thread pool to avoid blocking
+2025-11-15 01:21:31,003 - src.modules.rag.processor - INFO - chunk_document() completed in thread pool, generated 4 chunks
+2025-11-15 01:21:31,003 - src.modules.rag.processor - INFO - chunk_document() method completed in 0.00 seconds
+2025-11-15 01:21:31,003 - src.modules.rag.processor - INFO - Document chunking completed
+2025-11-15 01:21:31,003 - src.modules.rag.processor - INFO - Starting embedding generation
+2025-11-15 01:23:30,232 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:24:27,575 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:25:13,907 - faiss.loader - INFO - Loading faiss.
+2025-11-15 01:25:13,916 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 01:25:23,972 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 01:25:25,864 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 01:25:25,864 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 01:25:25,864 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 01:25:25,864 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 01:25:25,865 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtpsajup3u.txt (text)
+2025-11-15 01:25:25,865 - src.modules.rag.processor - INFO - Starting document chunking 1d2a5dd7-4b97-4c1e-9203-702d386423d8: ¿QUÉ ES PANDORA EXPERIENCE?
+
+🌬...
+2025-11-15 01:25:25,865 - src.modules.rag.processor - INFO - Calling chunking_strategy.chunk_document()
+2025-11-15 01:25:25,865 - src.modules.rag.processor - INFO - Running chunk_document() in thread pool to avoid blocking
+2025-11-15 01:25:25,866 - src.modules.rag.processor - INFO - chunk_document() completed in thread pool, generated 4 chunks
+2025-11-15 01:25:25,866 - src.modules.rag.processor - INFO - chunk_document() method completed in 0.00 seconds
+2025-11-15 01:25:25,866 - src.modules.rag.processor - INFO - Document chunking completed
+2025-11-15 01:25:25,866 - src.modules.rag.processor - INFO - Starting embedding generation
+2025-11-15 01:25:32,342 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:25:38,629 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 01:25:40,404 - faiss.loader - INFO - Loading faiss.
+2025-11-15 01:25:40,418 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 01:25:40,421 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 01:25:40,421 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 01:25:40,421 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 01:25:40,421 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 01:25:40,421 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtl23blx38.txt (text)
+2025-11-15 01:25:40,421 - src.modules.rag.processor - INFO - Starting document chunking c2589de4-3fe0-4472-8c8e-93c8d13c618b: ¿QUÉ ES PANDORA EXPERIENCE?
+
+🌬...
+2025-11-15 01:25:40,422 - src.modules.rag.processor - INFO - Calling chunking_strategy.chunk_document()
+2025-11-15 01:25:40,422 - src.modules.rag.processor - INFO - Running chunk_document() in thread pool to avoid blocking
+2025-11-15 01:25:40,423 - src.modules.rag.processor - INFO - chunk_document() completed in thread pool, generated 4 chunks
+2025-11-15 01:25:40,423 - src.modules.rag.processor - INFO - chunk_document() method completed in 0.00 seconds
+2025-11-15 01:25:40,423 - src.modules.rag.processor - INFO - Document chunking completed
+2025-11-15 01:25:40,423 - src.modules.rag.processor - INFO - Starting embedding generation
+2025-11-15 01:25:40,515 - src.modules.rag.processor - ERROR - Failed to process document /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtl23blx38.txt: object of type 'EmbeddingResult' has no len()
+2025-11-15 01:25:40,515 - src.modules.api.server - INFO - Background processing completed successfully
+2025-11-15 01:30:05,231 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:30:11,323 - faiss.loader - INFO - Loading faiss.
+2025-11-15 01:30:11,335 - faiss.loader - INFO - Successfully loaded faiss.
+2025-11-15 01:30:17,003 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-15 01:30:19,331 - src.modules.rag.processor - INFO - Document processor initialized successfully
+2025-11-15 01:30:19,332 - src.modules.api.server - INFO - Starting background document processing
+2025-11-15 01:30:19,332 - src.modules.api.server - INFO - Getting shared processor for document processing
+2025-11-15 01:30:19,332 - src.modules.api.server - INFO - Calling processor.process_file()
+2025-11-15 01:30:19,332 - src.modules.rag.processor - INFO - Processing document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtyl76_4k3.txt (text)
+2025-11-15 01:30:19,332 - src.modules.rag.processor - INFO - Starting document chunking 13605eb5-7c1b-403e-b243-752a26b1951f: ¿QUÉ ES PANDORA EXPERIENCE?
+
+🌬...
+2025-11-15 01:30:19,333 - src.modules.rag.processor - INFO - Calling chunking_strategy.chunk_document()
+2025-11-15 01:30:19,333 - src.modules.rag.processor - INFO - Running chunk_document() in thread pool to avoid blocking
+2025-11-15 01:30:19,336 - src.modules.rag.processor - INFO - chunk_document() completed in thread pool, generated 4 chunks
+2025-11-15 01:30:19,336 - src.modules.rag.processor - INFO - chunk_document() method completed in 0.00 seconds
+2025-11-15 01:30:19,336 - src.modules.rag.processor - INFO - Document chunking completed
+2025-11-15 01:30:19,336 - src.modules.rag.processor - INFO - Starting embedding generation
+2025-11-15 01:30:19,429 - src.modules.rag.processor - INFO - Embedding generation completed
+2025-11-15 01:30:19,430 - src.modules.rag.processor - INFO - Starting vector store storage
+2025-11-15 01:30:19,431 - src.modules.rag.processor - INFO - Vector store storage completed
+2025-11-15 01:30:19,431 - src.modules.rag.processor - INFO - Starting JSON chunk store storage
+2025-11-15 01:30:19,433 - src.modules.rag.processor - INFO - JSON chunk store storage completed
+2025-11-15 01:30:19,433 - src.modules.rag.processor - INFO - Starting document metadata storage
+2025-11-15 01:30:19,433 - src.modules.rag.processor - INFO - Document metadata storage completed
+2025-11-15 01:30:19,433 - src.modules.rag.processor - INFO - Successfully processed document: /var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtyl76_4k3.txt - 4 chunks
+2025-11-15 01:30:19,433 - src.modules.api.server - INFO - Background processing completed successfully
+2025-11-15 01:31:07,812 - src.modules.logging.logger - INFO - Henry Bot M2 logging system initialized
+2025-11-15 01:31:45,507 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-11-15 01:32:07,462 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-11-15 01:32:07,464 - openai._base_client - INFO - Retrying request to /chat/completions in 0.387828 seconds
+2025-11-15 01:32:09,470 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"

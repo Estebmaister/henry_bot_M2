@@ -696,26 +696,21 @@ def register_routes(app: FastAPI):
 
             try:
                 # Process the document using the document processor
-                logger.info(
-                    "Starting background document processing",
-                    extra={
-                        "document_id": document_id,
-                        "document_filename": filename,  # Changed from 'filename'
-                        "file_extension": file_extension,
-                        "file_size": len(file_content)
-                    }
-                )
+                process_start_time = time.time()
 
                 result = await processor.process_file(
                     file_path=temp_file_path,
                     store_embeddings=True
                 )
 
+                process_duration = time.time() - process_start_time
+
                 logger.info(
                     "Background processing completed successfully",
                     extra={
                         "document_id": document_id,
-                        "document_filename": filename,  # Changed from 'filename'
+                        "document_filename": filename,
+                        "processing_duration_seconds": round(process_duration, 2),
                         "chunks_processed": len(result.chunks) if hasattr(result, 'chunks') else "unknown",
                         "embedding_count": len(result.chunks) if hasattr(result, 'chunks') else "unknown"
                     }
@@ -733,7 +728,7 @@ def register_routes(app: FastAPI):
                 "Background processing failed",
                 extra={
                     "document_id": document_id,
-                    "document_filename": filename,  # Changed from 'filename'
+                    "document_filename": filename,
                     "file_extension": file_extension,
                     "error_type": type(e).__name__,
                     "error_message": str(e),
