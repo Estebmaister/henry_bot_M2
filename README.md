@@ -335,27 +335,6 @@ python -m src.main status
 
 ## 🧪 Testing & Quality Assurance
 
-### Quick Testing Suite
-```bash
-# Run Python test suite
-python3 test_api.py
-
-# Test specific endpoint
-python3 test_api.py --test chat
-```
-
-### Available Testing Tools
-
-2. **Python Test Suite** (`test_api.py`)
-   - Comprehensive API testing
-   - Detailed reporting
-   - Performance metrics
-
-3. **Postman Collection** (`henry_bot_postman_collection.json`)
-   - Visual API testing
-   - Automated test execution
-   - Environment variable support
-
 ### Manual Testing Examples
 
 ```bash
@@ -440,7 +419,7 @@ tail -f logs/metrics.csv
 - [x] Multiple prompting techniques
 - [x] Comprehensive metrics tracking
 - [x] Docker deployment ready
-- [x] Complete testing infrastructure
+- [x] Manual testing infrastructure
 
 ### ✅ Phase 2: RAG System
 - [x] Complete FAISS-based semantic search implementation
@@ -452,6 +431,7 @@ tail -f logs/metrics.csv
 - [x] Production-ready RAG system integration
 
 ### ⏳ Phase 3: Advanced Features (Planned)
+- [ ] Testing & QA enhancements
 - [ ] Streaming responses
 - [ ] Conversation memory
 - [ ] Multi-modal support
