@@ -152,7 +152,9 @@ class DocumentProcessor:
         Returns:
             ProcessedDocument with results and metadata
         """
+        # Capture start time
         start_time = datetime.now()
+        processing_started_at = start_time.isoformat()
 
         # Generate document ID if not provided
         if document_id is None:
@@ -162,11 +164,17 @@ class DocumentProcessor:
         if document_type is None:
             document_type = self._detect_document_type(source)
 
+        # Track processing stages with timestamps
+        stage_timestamps = {
+            "started_at": processing_started_at,
+        }
+
         try:
             logger.info(
                 f"Processing document: {source} ({document_type.value})")
 
             # Step 1: Chunk the document
+            chunking_start = datetime.now()
             chunks = await self._chunk_document(
                 content=content,
                 document_id=document_id,
@@ -174,29 +182,51 @@ class DocumentProcessor:
                 document_type=document_type,
                 **chunking_kwargs
             )
+            stage_timestamps["chunking_completed_at"] = datetime.now(
+            ).isoformat()
+            stage_timestamps["chunking_duration_ms"] = (
+                datetime.now() - chunking_start).total_seconds() * 1000
 
             if not chunks:
                 raise ValueError("Document chunking produced no chunks")
 
             # Step 2: Generate embeddings
+            embedding_start = datetime.now()
             embeddings = await self._generate_embeddings(chunks)
+            stage_timestamps["embedding_completed_at"] = datetime.now(
+            ).isoformat()
+            stage_timestamps["embedding_duration_ms"] = (
+                datetime.now() - embedding_start).total_seconds() * 1000
 
             # Step 3: Store in vector store (if available)
             if store_embeddings and self.vector_store:
+                vector_store_start = datetime.now()
                 await self._store_embeddings(chunks, embeddings)
+                stage_timestamps["vector_store_completed_at"] = datetime.now(
+                ).isoformat()
+                stage_timestamps["vector_store_duration_ms"] = (
+                    datetime.now() - vector_store_start).total_seconds() * 1000
 
             # Step 4: Store in JSON chunk store (if available)
             if self.chunk_store:
+                chunk_store_start = datetime.now()
                 embedding_list = embeddings.embeddings.tolist() if embeddings else None
                 await self.chunk_store.store_chunks(chunks, embedding_list)
+                stage_timestamps["chunk_store_completed_at"] = datetime.now(
+                ).isoformat()
+                stage_timestamps["chunk_store_duration_ms"] = (
+                    datetime.now() - chunk_store_start).total_seconds() * 1000
 
             # Step 5: Store document metadata (if available)
+            completed_at = datetime.now().isoformat()
+            stage_timestamps["completed_at"] = completed_at
             if self.document_store:
                 await self._store_document_metadata(
                     document_id=document_id,
                     source=source,
                     document_type=document_type,
-                    chunks=chunks
+                    chunks=chunks,
+                    stage_timestamps=stage_timestamps
                 )
 
             processing_time = (
@@ -216,13 +246,28 @@ class DocumentProcessor:
             await self._update_stats(result)
 
             logger.info(
-                f"Successfully processed document: {source} - {len(chunks)} chunks")
+                f"Successfully processed document: {source} - {len(chunks)} chunks in {processing_time:.2f}ms")
             return result
 
         except Exception as e:
             processing_time = (
                 datetime.now() - start_time).total_seconds() * 1000
             error_message = str(e)
+            failed_at = datetime.now().isoformat()
+
+            # Store failed document metadata
+            if self.document_store:
+                stage_timestamps["failed_at"] = failed_at
+                stage_timestamps["completed_at"] = failed_at
+                await self._store_document_metadata(
+                    document_id=document_id,
+                    source=source,
+                    document_type=document_type,
+                    chunks=[],
+                    stage_timestamps=stage_timestamps,
+                    error_message=error_message,
+                    status="failed"
+                )
 
             result = ProcessedDocument(
                 document_id=document_id,
@@ -389,22 +434,39 @@ class DocumentProcessor:
         document_id: str,
         source: str,
         document_type: DocumentType,
-        chunks: List[DocumentChunk]
+        chunks: List[DocumentChunk],
+        stage_timestamps: Dict[str, Any],
+        error_message: Optional[str] = None,
+        status: str = "completed"
     ) -> None:
         """Store document metadata in document store."""
         if not self.document_store:
             return
+
+        # Extract filename from source path
+        filename = Path(source).name if source and '/' in source else source
+
+        # Build comprehensive metadata with proper timestamps
+        metadata = {
+            "filename": filename,
+            "status": status,
+            "chunking_strategy": self.chunking_strategy.get_strategy_name(),
+            "embedding_model": self.embedding_service.model.model_name,
+            **stage_timestamps,  # Include all stage timestamps
+        }
+
+        # Add error message if present
+        if error_message:
+            metadata["error_message"] = error_message
+        else:
+            metadata["error_message"] = None
 
         await self.document_store.store_document(
             document_id=document_id,
             source=source,
             document_type=document_type.value,
             chunk_count=len(chunks),
-            metadata={
-                "processed_at": datetime.now().isoformat(),
-                "chunking_strategy": self.chunking_strategy.get_strategy_name(),
-                "embedding_model": self.embedding_service.model.model_name,
-            }
+            metadata=metadata
         )
 
     def _detect_document_type(self, source: str) -> DocumentType:

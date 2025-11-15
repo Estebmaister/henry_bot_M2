@@ -94,7 +94,9 @@ class DateTimeJSONResponse(JSONResponse):
 app_state = {
     "bot": None,
     "start_time": None,
-    "version": "2.0.0"
+    "version": "2.0.0",
+    "background_tasks": set(),  # Track background tasks to prevent GC
+    "processing_queue": {}  # Track document processing status
 }
 
 
@@ -114,6 +116,13 @@ async def lifespan(app: FastAPI):
 
     # Shutdown
     print("👋 Henry Bot M2 shutting down")
+
+    # Cancel any pending background tasks
+    if app_state["background_tasks"]:
+        for task in app_state["background_tasks"]:
+            if not task.done():
+                task.cancel()
+        await asyncio.gather(*app_state["background_tasks"], return_exceptions=True)
 
 
 def create_app() -> FastAPI:
@@ -164,13 +173,10 @@ Protected endpoints require an API key sent in the `X-API-Key` header.
     )
 
     # Add custom middleware (order matters!)
-    # URL normalization must be FIRST to fix URLs before routing
     app.add_middleware(URLNormalizationMiddleware)
     app.add_middleware(SecurityHeadersMiddleware)
-    # 12 users = ~12 calls/min each
     app.add_middleware(RateLimitMiddleware, calls_per_minute=60)
     app.add_middleware(RequestLoggingMiddleware)
-    # Note: APIKeyAuthMiddleware removed - now using FastAPI dependencies
 
     # Add exception handlers
     @app.exception_handler(HenryBotError)
@@ -331,38 +337,6 @@ def register_routes(app: FastAPI):
     ):
         """
         Upload documents for background processing in RAG system.
-
-        ## Asynchronous Processing
-        - **Immediate Response**: Returns immediately with file upload confirmation
-        - **Background Processing**: Documents are processed asynchronously
-        - **Progress Tracking**: Use `/api/v1/pipeline/status` to monitor processing progress
-
-        ## Supported Formats
-        - **Text Files**: .txt, .md, .markdown
-        - **Word Documents**: .docx (Microsoft Word)
-        - **Processing**: Each document is chunked using sliding window strategy
-        - **Embeddings**: Generated using all-MiniLM-L6-v2 model
-        - **Storage**: Chunks are stored in FAISS vector store for semantic search
-
-        ## Usage Example
-        ```bash
-        curl -X POST "http://localhost:8000/api/v1/documents" \
-          -H "X-API-Key: your-api-key" \
-          -F "files=@document1.txt" \
-          -F "files=@document2.docx"
-        ```
-
-        ## Response
-        Returns immediate confirmation with:
-        - Number of files accepted for processing
-        - Queue status and estimated processing time
-        - Document IDs for tracking individual files
-
-        ## Monitor Progress
-        Use the pipeline status endpoint to track progress:
-        ```bash
-        curl -H "X-API-Key: your-api-key" http://localhost:8000/api/v1/pipeline/status
-        ```
         """
         if not app_state["bot"]:
             raise HTTPException(
@@ -416,10 +390,22 @@ def register_routes(app: FastAPI):
                         "filename": file.filename,
                         "file_extension": file_extension,
                         "file_size": len(content),
-                        "file_content": content,  # Pass original binary content
-                        # Flag for text files
+                        "file_content": content,
                         "is_text": file_extension not in ['docx', 'pdf']
                     })
+
+                    # Initialize status tracking IMMEDIATELY
+                    app_state["processing_queue"][document_id] = {
+                        "document_id": document_id,
+                        "filename": file.filename,
+                        "status": "queued",
+                        "queued_at": datetime.now().isoformat(),
+                        "started_at": None,
+                        "completed_at": None,
+                        "error": None,
+                        "chunks_count": 0,
+                        "file_size": len(content)
+                    }
 
                 except Exception as e:
                     rejected_files.append({
@@ -427,11 +413,10 @@ def register_routes(app: FastAPI):
                         "error": f"File processing error: {str(e)}"
                     })
 
-            # Trigger background processing
+            # Trigger background processing with proper task management
             if accepted_files:
-                # Create background task for each file
                 for file_data in accepted_files:
-                    asyncio.create_task(
+                    task = asyncio.create_task(
                         _process_document_background(
                             file_data["document_id"],
                             file_data["filename"],
@@ -440,6 +425,13 @@ def register_routes(app: FastAPI):
                             file_data["is_text"]
                         )
                     )
+
+                    # Keep a reference to prevent garbage collection
+                    app_state["background_tasks"].add(task)
+
+                    # Remove task from set when done
+                    task.add_done_callback(
+                        app_state["background_tasks"].discard)
 
             processing_time_ms = (time.time() - start_time) * 1000
 
@@ -458,7 +450,7 @@ def register_routes(app: FastAPI):
                 success=success,
                 message=message,
                 documents_processed=len(accepted_files),
-                total_chunks=0,  # Chunks will be counted during background processing
+                total_chunks=0,
                 processing_time_ms=processing_time_ms
             )
 
@@ -471,17 +463,11 @@ def register_routes(app: FastAPI):
     async def generate_api_key_endpoint():
         """
         Generate a new API key for accessing protected endpoints.
-
         This public endpoint generates a secure API key that can be used
-        to authenticate requests to protected API endpoints. No authentication
-        is required to access this endpoint.
-
-        Supports both GET (browser-friendly) and POST requests.
-
+        to authenticate requests to protected API endpoints.
         The generated API key follows the format: henry_bot_[32_random_hex_characters]
         """
         try:
-            # Generate a new API key
             new_api_key = generate_api_key()
 
             return APIKeyResponse(
@@ -514,123 +500,89 @@ def register_routes(app: FastAPI):
                 status_code=503, detail="Service not initialized")
 
         try:
-            # Get server uptime
             uptime = time.time() - \
                 app_state["start_time"] if app_state["start_time"] else 0
 
-            # Initialize response values
-            pipeline_status = "idle"
-            total_documents = 0
-            processing_documents = 0
-            completed_documents = 0
-            failed_documents = 0
-            total_chunks = 0
-            total_embeddings = 0
+            # Get status from processing queue (in-memory tracking)
+            queue_status = list(app_state["processing_queue"].values())
 
-            # Check storage status
+            total_documents = len(queue_status)
+            processing_documents = sum(
+                1 for d in queue_status if d["status"] == "processing")
+            completed_documents = sum(
+                1 for d in queue_status if d["status"] == "completed")
+            failed_documents = sum(
+                1 for d in queue_status if d["status"] == "failed")
+            queued_documents = sum(
+                1 for d in queue_status if d["status"] == "queued")
+
+            total_chunks = sum(d.get("chunks_count", 0) for d in queue_status)
+
+            # Determine pipeline status
+            if processing_documents > 0 or queued_documents > 0:
+                pipeline_status = "processing"
+            elif failed_documents > 0 and completed_documents == 0:
+                pipeline_status = "failed"
+            elif completed_documents > 0:
+                pipeline_status = "completed"
+            else:
+                pipeline_status = "idle"
+
+            # Storage status
             storage_status = {
                 "vector_store": False,
                 "chunk_store": False,
                 "document_store": False
             }
 
-            recent_documents = []
-
-            # Get pipeline status from document processor if available
+            # Check storage availability
             if hasattr(app_state["bot"], 'document_processor') and app_state["bot"].document_processor:
-                try:
-                    # Get stats from document store
-                    if hasattr(app_state["bot"].document_processor, 'document_store'):
-                        document_store = app_state["bot"].document_processor.document_store
-                        if document_store:
-                            await document_store.initialize()
-                            stats = document_store.get_stats()
-                            total_documents = stats.get("total_documents", 0)
-                            completed_documents = stats.get(
-                                "processed_documents", 0)
-                            storage_status["document_store"] = True
+                if hasattr(app_state["bot"].document_processor, 'vector_store') and app_state["bot"].document_processor.vector_store:
+                    storage_status["vector_store"] = True
+                if hasattr(app_state["bot"].document_processor, 'chunk_store') and app_state["bot"].document_processor.chunk_store:
+                    storage_status["chunk_store"] = True
+                if hasattr(app_state["bot"].document_processor, 'document_store') and app_state["bot"].document_processor.document_store:
+                    storage_status["document_store"] = True
 
-                            # Get recent documents
-                            recent_docs_data = await document_store.list_documents(limit=5)
-                            for doc_data in recent_docs_data:
-                                recent_documents.append(DocumentProcessingStatus(
-                                    document_id=doc_data.get(
-                                        "document_id", ""),
-                                    filename=doc_data.get("filename", ""),
-                                    status=doc_data.get("status", "unknown"),
-                                    document_type=doc_data.get(
-                                        "document_type", "unknown"),
-                                    chunk_count=doc_data.get("chunk_count", 0),
-                                    embedding_status="completed" if doc_data.get(
-                                        "chunk_count", 0) > 0 else "pending",
-                                    created_at=doc_data.get(
-                                        "created_at", datetime.now()),
-                                    processing_started_at=doc_data.get(
-                                        "processing_started_at"),
-                                    completed_at=doc_data.get("completed_at"),
-                                    error_message=doc_data.get("error_message")
-                                ))
-
-                    # Get stats from chunk store
-                    if hasattr(app_state["bot"].document_processor, 'chunk_store'):
-                        chunk_store = app_state["bot"].document_processor.chunk_store
-                        if chunk_store:
-                            await chunk_store.initialize()
-                            chunk_stats = chunk_store.get_stats()
-                            total_chunks = chunk_stats.get("total_chunks", 0)
-                            chunks_with_embeddings = chunk_stats.get(
-                                "chunks_with_embeddings", 0)
-                            total_embeddings = chunks_with_embeddings
-                            storage_status["chunk_store"] = True
-
-                    # Get stats from vector store
-                    if hasattr(app_state["bot"].document_processor, 'vector_store'):
-                        vector_store = app_state["bot"].document_processor.vector_store
-                        if vector_store:
-                            await vector_store.initialize()
-                            vector_stats = vector_store.get_stats()
-                            storage_status["vector_store"] = True
-                            if vector_stats:
-                                total_embeddings = max(
-                                    total_embeddings, vector_stats.get("total_embeddings", 0))
-
-                    # Determine pipeline status
-                    if completed_documents < total_documents:
-                        pipeline_status = "processing"
-                        processing_documents = total_documents - completed_documents
-                    elif total_documents > 0:
-                        pipeline_status = "completed"
-                    else:
-                        pipeline_status = "idle"
-
-                    failed_documents = total_documents - completed_documents
-
-                except Exception as e:
-                    # Log error but continue with default values
-                    print(f"Error getting pipeline stats: {e}")
-                    pipeline_status = "error"
+            # Get recent documents (last 10)
+            recent_documents = []
+            for doc_status in sorted(queue_status, key=lambda x: x.get("queued_at", ""), reverse=True)[:10]:
+                recent_documents.append(DocumentProcessingStatus(
+                    document_id=doc_status["document_id"],
+                    filename=doc_status["filename"],
+                    status=doc_status["status"],
+                    document_type="text",  # Could be enhanced to track actual type
+                    chunk_count=doc_status.get("chunks_count", 0),
+                    embedding_status="completed" if doc_status.get(
+                        "chunks_count", 0) > 0 else "pending",
+                    created_at=doc_status.get("queued_at"),
+                    processing_started_at=doc_status.get("started_at"),
+                    completed_at=doc_status.get("completed_at"),
+                    error_message=doc_status.get("error")
+                ))
 
             return PipelineStatusResponse(
                 pipeline_status=pipeline_status,
                 total_documents=total_documents,
-                processing_documents=processing_documents,
+                processing_documents=processing_documents + queued_documents,
                 completed_documents=completed_documents,
                 failed_documents=failed_documents,
                 total_chunks=total_chunks,
-                total_embeddings=total_embeddings,
+                total_embeddings=total_chunks,  # Assuming 1:1 for now
                 storage_status=storage_status,
                 recent_documents=recent_documents,
                 uptime_seconds=uptime
             )
 
         except Exception as e:
+            logger.error(
+                f"Failed to get pipeline status: {str(e)}", exc_info=True)
             raise HTTPException(
                 status_code=500, detail=f"Failed to get pipeline status: {str(e)}")
 
     @app.get("/favicon.ico", tags=["Static"])
     async def favicon():
         """Return a minimal favicon response."""
-        # Return 204 No Content since we don't have a favicon file
         from fastapi import Response
         return Response(status_code=204)
 
@@ -650,91 +602,155 @@ def register_routes(app: FastAPI):
     async def _process_document_background(
         document_id: str,
         filename: str,
-        file_content,  # bytes for all files
+        file_content,
         file_extension: str,
         is_text: bool = True
     ) -> None:
         """
-        Process a document in the background.
-
-        This function handles document processing asynchronously,
-        allowing the API to respond immediately while the
-        RAG pipeline processes the document in the background.
+        Process a document in the background with status tracking.
         """
         try:
+            # Update status to processing
+            if document_id in app_state["processing_queue"]:
+                app_state["processing_queue"][document_id].update({
+                    "status": "processing",
+                    "started_at": datetime.now().isoformat()
+                })
+
+            logger.info(f"Starting background processing for: {filename}", extra={
+                "document_id": document_id
+            })
+
             # Get shared processor (initialize once only)
             processor = await get_shared_processor()
 
             # Create temporary file for processing
-            # Handle binary vs text files properly
             if is_text:
-                # Text files - write as string with UTF-8 encoding
                 with tempfile.NamedTemporaryFile(
                     mode='w',
                     delete=False,
-                    suffix=f".{file_extension}" if file_extension else ".tmp",
-                    prefix=filename,
+                    suffix=f".{file_extension}",
+                    # Keep original name in prefix
+                    prefix=f"{filename.rsplit('.', 1)[0]}_",
                     encoding='utf-8'
                 ) as temp_file:
-                    if isinstance(file_content, bytes):
-                        temp_file.write(file_content.decode('utf-8'))
-                    else:
-                        temp_file.write(file_content)
+                    content_str = file_content.decode(
+                        'utf-8') if isinstance(file_content, bytes) else file_content
+                    temp_file.write(content_str)
                     temp_file_path = temp_file.name
             else:
-                # Binary files (DOCX, PDF) - write as bytes
                 with tempfile.NamedTemporaryFile(
                     mode='wb',
                     delete=False,
-                    suffix=f".{file_extension}" if file_extension else ".tmp"
+                    suffix=f".{file_extension}",
+                    # Keep original name in prefix
+                    prefix=f"{filename.rsplit('.', 1)[0]}_"
                 ) as temp_file:
-                    if isinstance(file_content, str):
-                        temp_file.write(file_content.encode('utf-8'))
-                    else:
-                        temp_file.write(file_content)
+                    content_bytes = file_content if isinstance(
+                        file_content, bytes) else file_content.encode('utf-8')
+                    temp_file.write(content_bytes)
                     temp_file_path = temp_file.name
 
             try:
-                # Process the document using the document processor
-                process_start_time = time.time()
+                # Read the file content for process_document
+                # We'll use process_document instead of process_file to have more control
+                if is_text:
+                    with open(temp_file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                else:
+                    # For DOCX, we still need to use the file path
+                    # So we'll detect the document type and read accordingly
+                    from pathlib import Path
+                    from ..rag.chunking import DocumentType
 
-                result = await processor.process_file(
-                    file_path=temp_file_path,
+                    if file_extension == 'docx':
+                        # For DOCX, we need to extract text
+                        from docx import Document
+                        doc = Document(temp_file_path)
+                        full_text = []
+
+                        # Extract text from paragraphs
+                        for paragraph in doc.paragraphs:
+                            if paragraph.text.strip():
+                                full_text.append(paragraph.text.strip())
+
+                        # Extract text from tables
+                        for table in doc.tables:
+                            for row in table.rows:
+                                row_text = []
+                                for cell in row.cells:
+                                    if cell.text.strip():
+                                        row_text.append(cell.text.strip())
+                                if row_text:
+                                    full_text.append(" | ".join(row_text))
+
+                        content = "\n".join(full_text)
+                    else:
+                        with open(temp_file_path, 'r', encoding='utf-8') as f:
+                            content = f.read()
+
+                # Detect document type from original filename
+                document_type = None
+                if file_extension in ['md', 'markdown']:
+                    from ..rag.chunking import DocumentType
+                    document_type = DocumentType.MARKDOWN
+                elif file_extension == 'docx':
+                    from ..rag.chunking import DocumentType
+                    document_type = DocumentType.DOCX
+                elif file_extension in ['txt', 'text']:
+                    from ..rag.chunking import DocumentType
+                    document_type = DocumentType.TEXT
+
+                # Process the document using process_document with original filename as source
+                result = await processor.process_document(
+                    content=content,
+                    source=filename,  # Use original filename here!
+                    document_type=document_type,
+                    document_id=document_id,
                     store_embeddings=True
                 )
 
-                process_duration = time.time() - process_start_time
+                # Update status based on result
+                if result.success:
+                    app_state["processing_queue"][document_id].update({
+                        "status": "completed",
+                        "completed_at": datetime.now().isoformat(),
+                        "chunks_count": len(result.chunks)
+                    })
 
-                logger.info(
-                    "Background processing completed successfully",
-                    extra={
+                    logger.info(f"Successfully processed: {filename}", extra={
                         "document_id": document_id,
-                        "document_filename": filename,
-                        "processing_duration_seconds": round(process_duration, 2),
-                        "chunks_processed": len(result.chunks) if hasattr(result, 'chunks') else "unknown",
-                        "embedding_count": len(result.chunks) if hasattr(result, 'chunks') else "unknown"
-                    }
-                )
+                        "chunks_count": len(result.chunks)
+                    })
+                else:
+                    app_state["processing_queue"][document_id].update({
+                        "status": "failed",
+                        "completed_at": datetime.now().isoformat(),
+                        "error": result.error_message
+                    })
+
+                    logger.error(f"Failed to process: {filename}", extra={
+                        "document_id": document_id,
+                        "error": result.error_message
+                    })
 
             finally:
                 # Clean up temporary file
                 try:
                     os.unlink(temp_file_path)
-                except:
-                    pass  # Ignore cleanup errors
+                except Exception as e:
+                    logger.warning(f"Failed to delete temp file: {temp_file_path}", extra={
+                                   "error": str(e)})
 
         except Exception as e:
-            logger.error(
-                "Background processing failed",
-                extra={
-                    "document_id": document_id,
-                    "document_filename": filename,
-                    "file_extension": file_extension,
-                    "error_type": type(e).__name__,
-                    "error_message": str(e),
-                    "file_size": len(file_content)
-                },
-                exc_info=True  # This will include the full stack trace
-            )
-            # In a production system, you might want to update the document
-            # status in your database to indicate failure
+            logger.error(f"Background processing error for {filename}: {str(e)}", extra={
+                "document_id": document_id
+            }, exc_info=True)
+
+            # Update status to failed
+            if document_id in app_state["processing_queue"]:
+                app_state["processing_queue"][document_id].update({
+                    "status": "failed",
+                    "completed_at": datetime.now().isoformat(),
+                    "error": str(e)
+                })
