@@ -150,3 +150,6 @@ timestamp,endpoint,method,user_agent,ip_address,response_status,response_time_ms
 2025-11-14T14:54:42.053004,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,401,2
 2025-11-14T14:57:32.143895,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
 2025-11-14T14:57:39.626935,/api/v1/generate-api-key,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,0
+2025-11-14T17:00:19.374604,/api/v1/documents,POST,curl/8.7.1,127.0.0.1,401,1
+2025-11-14T17:00:30.022866,/api/v1/generate-api-key,GET,curl/8.7.1,127.0.0.1,200,1
+2025-11-14T17:07:39.192009,/api/v1/documents,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,401,2
