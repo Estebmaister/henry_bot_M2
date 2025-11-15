@@ -71,8 +71,8 @@ venv.bak/
 .vscode/
 
 # Project specific
-# logs/
-# data/
+logs/
+data/
 *.faiss
 vector_store/
 

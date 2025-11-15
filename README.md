@@ -86,6 +86,9 @@ cp .env.example .env
 # 5. Start the server
 python -m src.main server
 # Test the server comfortably from: http://0.0.0.0:8000/swagger
+
+## IMPORTANT: For the first time running the chat endpoint, it will download the embedding model (~90MB)
+## and cache it locally in `~/.cache/torch/sentence_transformers/` for future runs.
 ```
 
 ### Environment Configuration
