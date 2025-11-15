@@ -16,6 +16,7 @@ python-multipart>=0.0.6
 # Document processing
 pypdf2>=3.0.1
 markdowntopdf>=0.1.0
+python-docx>=1.2.0
 
 # Testing and development
 pytest>=8.0.0

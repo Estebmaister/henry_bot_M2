@@ -47,6 +47,27 @@ class Settings(BaseSettings):
         0.7, env="RESPONSE_SCORING_THRESHOLD", ge=0.0, le=2.0)
     vector_db_api_key: Optional[str] = Field(None, env="VECTOR_DB_API_KEY")
 
+    # Chunking Configuration
+    chunk_size: int = Field(1000, env="CHUNK_SIZE", gt=50, le=10000)
+    chunk_overlap: int = Field(200, env="CHUNK_OVERLAP", gt=0, le=1000)
+    min_chunk_size: int = Field(100, env="MIN_CHUNK_SIZE", gt=10, le=1000)
+    respect_sentence_boundaries: bool = Field(
+        True, env="RESPECT_SENTENCE_BOUNDARIES")
+    include_metadata_keywords: bool = Field(
+        True, env="INCLUDE_METADATA_KEYWORDS")
+
+    # Embedding Configuration
+    embedding_batch_size: int = Field(
+        32, env="EMBEDDING_BATCH_SIZE", gt=1, le=256)
+    max_sequence_length: int = Field(
+        512, env="MAX_SEQUENCE_LENGTH", gt=50, le=8192)
+    normalize_embeddings: bool = Field(True, env="NORMALIZE_EMBEDDINGS")
+    embedding_device: str = Field("cpu", env="EMBEDDING_DEVICE")
+
+    # EMBEDDINGS API Configuration
+    embeddings_api_key: Optional[str] = Field(None, env="EMBEDDINGS_API_KEY")
+    embeddings_base_url: Optional[str] = Field(None, env="EMBEDDINGS_BASE_URL")
+
     # Logging
     log_level: str = Field("INFO", env="LOG_LEVEL")
     log_file: str = Field("./logs/app.log", env="LOG_FILE")

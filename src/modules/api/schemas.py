@@ -80,7 +80,7 @@ class DocumentUploadResponse(BaseModel):
     message: str = Field(..., description="Status message")
     documents_processed: int = Field(..., description="Number of documents processed")
     total_chunks: int = Field(..., description="Total number of text chunks created")
-    processing_time_ms: int = Field(..., description="Processing time in milliseconds")
+    processing_time_ms: float = Field(..., description="Processing time in milliseconds")
     errors: List[str] = Field(default_factory=list, description="Any processing errors")
 
     model_config = {
@@ -152,6 +152,70 @@ class AdversarialResponse(BaseModel):
                     "severity_score": 0.8
                 },
                 "timestamp": "2025-11-10T15:30:00"
+            }
+        }
+    }
+
+
+class DocumentProcessingStatus(BaseModel):
+    """Schema for individual document processing status."""
+    document_id: str = Field(..., description="Document ID")
+    filename: str = Field(..., description="Original filename")
+    status: str = Field(..., description="Processing status: pending, processing, completed, failed")
+    document_type: str = Field(..., description="Document type")
+    chunk_count: int = Field(default=0, description="Number of chunks generated")
+    embedding_status: str = Field(default="pending", description="Embedding generation status")
+    created_at: datetime = Field(..., description="Document creation timestamp")
+    processing_started_at: Optional[datetime] = Field(None, description="Processing start time")
+    completed_at: Optional[datetime] = Field(None, description="Completion timestamp")
+    error_message: Optional[str] = Field(None, description="Error message if failed")
+
+
+class PipelineStatusResponse(BaseModel):
+    """Schema for RAG pipeline status responses."""
+    pipeline_status: str = Field(..., description="Overall pipeline status: idle, processing, completed")
+    total_documents: int = Field(..., description="Total documents in the system")
+    processing_documents: int = Field(..., description="Number of documents currently being processed")
+    completed_documents: int = Field(..., description="Number of successfully processed documents")
+    failed_documents: int = Field(..., description="Number of failed document processing attempts")
+    total_chunks: int = Field(..., description="Total chunks generated across all documents")
+    total_embeddings: int = Field(..., description="Total embeddings generated")
+    storage_status: Dict[str, bool] = Field(..., description="Status of storage components")
+    recent_documents: List[DocumentProcessingStatus] = Field(..., description="Recently processed documents")
+    uptime_seconds: Optional[float] = Field(None, description="Server uptime in seconds")
+    last_updated: datetime = Field(default_factory=datetime.now, description="Status last updated timestamp")
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "pipeline_status": "processing",
+                "total_documents": 15,
+                "processing_documents": 3,
+                "completed_documents": 12,
+                "failed_documents": 0,
+                "total_chunks": 234,
+                "total_embeddings": 234,
+                "storage_status": {
+                    "vector_store": True,
+                    "chunk_store": True,
+                    "document_store": True
+                },
+                "recent_documents": [
+                    {
+                        "document_id": "doc_123",
+                        "filename": "example.docx",
+                        "status": "completed",
+                        "document_type": "DOCX",
+                        "chunk_count": 18,
+                        "embedding_status": "completed",
+                        "created_at": "2025-11-14T18:30:00",
+                        "processing_started_at": "2025-11-14T18:30:01",
+                        "completed_at": "2025-11-14T18:32:15",
+                        "error_message": None
+                    }
+                ],
+                "uptime_seconds": 3600.5,
+                "last_updated": "2025-11-14T18:35:00"
             }
         }
     }

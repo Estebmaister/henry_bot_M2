@@ -16,6 +16,7 @@ from src.modules.prompting.engine import create_prompt
 from src.modules.prompting.safety import check_adversarial_prompt
 from src.modules.metrics.tracker import track_api_call
 from src.modules.rag.retriever import RAGRetriever
+from src.modules.rag.processor import create_document_processor
 from src.modules.logging.logger import log_metrics_from_tracker, log_error
 
 
@@ -60,6 +61,14 @@ class HenryBot:
             # RAG system can be optional for basic functionality
             self.rag_retriever = None
             print(f"Warning: RAG system not initialized: {e}")
+
+        # Initialize document processor
+        try:
+            self.document_processor = create_document_processor()
+        except Exception as e:
+            # Document processor can be optional for basic functionality
+            self.document_processor = None
+            print(f"Warning: Document processor not initialized: {e}")
 
     async def process_question(
         self,
@@ -179,19 +188,15 @@ class HenryBot:
             return result
 
         except Exception as e:
-            # Stop tracking even on error
+            # Handle any errors during LLM processing
             tracker.stop()
-
-            # Log the error to CSV (inherited from M1)
             log_error(
-                error_type=type(e).__name__,
+                error_type="LLMProcessingError",
                 error_message=str(e),
                 model=self.model,
-                user_question=user_question,
-                stack_trace=traceback.format_exc()
+                user_question=user_question
             )
 
-            # Log failed metrics to CSV (inherited from M1)
             log_metrics_from_tracker(
                 tracker,
                 prompt_technique=prompt_technique,
@@ -201,8 +206,81 @@ class HenryBot:
             )
 
             return {
-                "error": f"API call failed: {str(e)}",
-                "metrics": tracker.get_summary_metrics()
+                "error": f"Processing failed: {str(e)}",
+                "metrics": tracker.get_summary_metrics(),
+                "rag": {
+                    "context_used": rag_context is not None,
+                    "retrieval_score": rag_score,
+                    "context_length": len(rag_context) if rag_context else 0,
+                    "context_preview": rag_context[:200] + "..." if rag_context and len(rag_context) > 200 else rag_context
+                } if rag_context is not None else None
+            }
+
+    async def process_uploaded_document(
+        self,
+        file_content: str,
+        filename: str,
+        store_embeddings: bool = True
+    ) -> Dict:
+        """
+        Process an uploaded document through the RAG pipeline.
+
+        Args:
+            file_content: Content of the uploaded file
+            filename: Name of the uploaded file
+            store_embeddings: Whether to store embeddings in vector store
+
+        Returns:
+            Dictionary with processing results and statistics
+        """
+        if not self.document_processor:
+            raise HenryBotError("Document processor not available")
+
+        try:
+            # Process the document using the new RAG processor
+            result = await self.document_processor.process_document(
+                content=file_content,
+                source=filename,
+                store_embeddings=store_embeddings
+            )
+
+            # Convert to API response format
+            return {
+                "success": result.success,
+                "document_id": result.document_id,
+                "filename": result.source,
+                "document_type": result.document_type.value,
+                "chunks_generated": len(result.chunks),
+                "embeddings_generated": result.embeddings is not None,
+                "processing_time_ms": result.processing_time_ms,
+                "error_message": result.error_message,
+                "chunking_strategy": result.chunks[0].metadata.strategy_name if result.chunks else None,
+                "total_characters": sum(chunk.metadata.char_count for chunk in result.chunks),
+                "total_words": sum(chunk.metadata.word_count for chunk in result.chunks),
+            }
+
+        except Exception as e:
+            raise HenryBotError(f"Document processing failed: {str(e)}")
+
+    def get_document_processor_stats(self) -> Dict:
+        """
+        Get statistics from the document processor.
+
+        Returns:
+            Dictionary with processing statistics
+        """
+        if not self.document_processor:
+            return {"available": False, "message": "Document processor not initialized"}
+
+        try:
+            return {
+                "available": True,
+                **self.document_processor.get_stats()
+            }
+        except Exception as e:
+            return {
+                "available": False,
+                "message": f"Failed to get stats: {str(e)}"
             }
 
     def get_system_status(self) -> Dict:
@@ -216,6 +294,7 @@ class HenryBot:
             "status": "healthy",
             "model": self.model,
             "rag_available": self.rag_retriever is not None,
+            "document_processor_available": self.document_processor is not None,
             "prompting_technique": self.prompting_technique,
             "temperature": self.temperature,
             "max_tokens": self.max_tokens
