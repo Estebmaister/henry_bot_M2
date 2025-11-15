@@ -256,3 +256,16 @@ timestamp,endpoint,method,user_agent,ip_address,response_status,response_time_ms
 2025-11-15T01:30:24.250492,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,3
 2025-11-15T01:31:46.044336,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,3029
 2025-11-15T01:32:09.589335,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,4094
+2025-11-15T11:14:53.189260,/api/v1/pipeline/status,GET,curl/8.7.1,127.0.0.1,200,2
+2025-11-15T11:28:48.821111,/api/v1/documents,POST,curl/8.7.1,127.0.0.1,200,5275
+2025-11-15T11:30:59.540824,/api/v1/pipeline/status,GET,curl/8.7.1,127.0.0.1,200,3
+2025-11-15T11:33:18.094683,/api/v1/chat,POST,curl/8.7.1,127.0.0.1,200,3037
+2025-11-15T11:52:11.468927,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,4883
+2025-11-15T11:57:00.993536,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,6855
+2025-11-15T12:04:09.460929,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,6115
+2025-11-15T12:07:27.598118,/api/v1/documents,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,4140
+2025-11-15T12:07:52.542246,/api/v1/pipeline/status,GET,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,1
+2025-11-15T12:08:12.748431,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,2460
+2025-11-15T12:08:58.978696,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,6416
+2025-11-15T12:13:02.124682,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,7086
+2025-11-15T12:25:46.427437,/api/v1/chat,POST,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",127.0.0.1,200,6875

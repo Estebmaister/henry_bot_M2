@@ -5,6 +5,7 @@ Centralized configuration with environment variable support
 and validation using Pydantic.
 """
 
+import os
 from typing import Optional
 from pydantic import Field
 from pydantic_settings import BaseSettings
@@ -12,6 +13,8 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     """Application settings with environment variable support."""
+    # Set environment variables
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
     # API Configuration
     openrouter_api_key: str = Field(..., env="OPENROUTER_API_KEY")
@@ -37,11 +40,16 @@ class Settings(BaseSettings):
     max_tokens: int = Field(500, env="MAX_TOKENS", gt=0, le=2000)
     prompting_technique: str = Field("few_shot", env="PROMPTING_TECHNIQUE")
 
-    # RAG Configuration
-    embedding_model: str = Field("all-MiniLM-L6-v2", env="EMBEDDING_MODEL")
+    # RAG Storage Paths
     vector_store_path: str = Field(
         "./data/vector_store.faiss", env="VECTOR_STORE_PATH")
-    documents_path: str = Field("./data/documents", env="DOCUMENTS_PATH")
+    chunk_store_path: str = Field(
+        "./data/chunks.json", env="CHUNK_STORE_PATH")
+    document_store_path: str = Field(
+        "./data/documents.json", env="DOCUMENT_STORE_PATH")
+
+    # RAG Configuration
+    embedding_model: str = Field("all-MiniLM-L6-v2", env="EMBEDDING_MODEL")
     similarity_top_k: int = Field(3, env="SIMILARITY_TOP_K", gt=0, le=20)
     response_scoring_threshold: float = Field(
         0.7, env="RESPONSE_SCORING_THRESHOLD", ge=0.0, le=2.0)

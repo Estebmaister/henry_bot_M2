@@ -717,11 +717,6 @@ def register_routes(app: FastAPI):
                         "completed_at": datetime.now().isoformat(),
                         "chunks_count": len(result.chunks)
                     })
-
-                    logger.info(f"Successfully processed: {filename}", extra={
-                        "document_id": document_id,
-                        "chunks_count": len(result.chunks)
-                    })
                 else:
                     app_state["processing_queue"][document_id].update({
                         "status": "failed",

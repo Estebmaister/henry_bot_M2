@@ -1,1 +1,197 @@
-{"texts": ["Test document content for background processing.", "\u00bfQU\u00c9 ES PANDORA EXPERIENCE? \ud83c\udf2c\ufe0f UNA EXPERIENCIA QUE TRANSFORMA EL FR\u00cdO EN CLARIDAD Pandora Experience es una jornada vivencial de transformaci\u00f3n personal que integra respiraci\u00f3n consciente, meditaci\u00f3n guiada y terapia de inmersi\u00f3n en hielo. M\u00e1s que una actividad, es un viaje hacia adentro que invita a soltar el miedo, desbloquear emociones reprimidas y reconectar con tu fortaleza interior. \ud83d\udc96 PARA QUI\u00c9N ES Esta experiencia est\u00e1 dise\u00f1ada para: - Personas en procesos de cambio o reinvenci\u00f3n personal. - Quienes se sienten estancados emocionalmente, con ansiedad, estr\u00e9s o falta de claridad. - Profesionales, emprendedores o l\u00edderes que desean fortalecer su resiliencia y enfoque mental. - Buscadores de bienestar emocional, espiritual y energ\u00e9tico. - No se requiere experiencia previa. Solo apertura a sentir, respirar y rendirse al proceso.", "fortalecer su resiliencia y enfoque mental. - Buscadores de bienestar emocional, espiritual y energ\u00e9tico. - No se requiere experiencia previa. Solo apertura a sentir, respirar y rendirse al proceso.", "\u00e9tico: - Conexi\u00f3n con la sabidur\u00eda del cuerpo - Liberaci\u00f3n de patrones inconscientes - Sensaci\u00f3n de paz, presencia y expansi\u00f3n \ud83c\udf1f NUESTRA PROMESA Aqu\u00ed no vienes a pelear contra el dolor, sino a transformarlo en claridad, fortaleza y paz. No necesitas m\u00e1s lucha, necesitas menos resistencia. Te acompa\u00f1amos a habitar tu cuerpo sin miedo, abrazar la incomodidad con presencia y descubrir que la verdadera fortaleza est\u00e1 en tu vulnerabilidad. \ud83d\udeaa EL PRIMER PASO Si sientes el llamado a soltar, a reiniciar desde adentro, y a desafiar tus l\u00edmites con amor y presencia, Pandora Experience es para ti. \u00bfEst\u00e1s list@ para sumergirte y descubrir de lo que realmente est\u00e1s hecho?", "el llamado a soltar, a reiniciar desde adentro, y a desafiar tus l\u00edmites con amor y presencia, Pandora Experience es para ti. \u00bfEst\u00e1s list@ para sumergirte y descubrir de lo que realmente est\u00e1s hecho?"], "metadatas": [{"chunk_id": "e86a7633-4157-4c44-b443-586a410ed6f4_chunk_0000", "document_id": "e86a7633-4157-4c44-b443-586a410ed6f4", "document_type": "text", "document_source": "/var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/tmplsnlhmjo.txt", "chunk_index": 0, "start_char": 0, "end_char": 1000, "page_number": null, "char_count": 48, "word_count": 6, "sentence_count": 1, "section_title": null, "hierarchy_level": 0, "is_code_block": false, "is_table_content": false, "keywords": ["test", "document", "content", "background", "processing"], "named_entities": ["Test"], "technical_terms": [], "created_at": "2025-11-14T23:38:31.721985", "strategy_name": "sliding_window", "strategy_params": {"chunk_size": 1000, "overlap_size": 200, "min_chunk_size": 100, "respect_sentence_boundaries": true, "include_metadata_keywords": true}, "density_score": 0.8333333333333334, "coherence_score": 1.0, "overlap_context": {"has_overlap": false, "overlap_size": 0}}, {"chunk_id": "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0000", "document_id": "13605eb5-7c1b-403e-b243-752a26b1951f", "document_type": "text", "document_source": "/var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtyl76_4k3.txt", "chunk_index": 0, "start_char": 0, "end_char": 843, "page_number": null, "char_count": 842, "word_count": 118, "sentence_count": 9, "section_title": null, "hierarchy_level": 0, "is_code_block": false, "is_table_content": false, "keywords": ["que", "una", "experiencia"], "named_entities": ["Personas", "Quienes", "Esta", "Profesionales", "Pandora Experience"], "technical_terms": ["ES", "EXPERIENCE", "PANDORA"], "created_at": "2025-11-15T01:30:19.335440", "strategy_name": "sliding_window", "strategy_params": {"chunk_size": 1000, "overlap_size": 200, "min_chunk_size": 100, "respect_sentence_boundaries": true, "include_metadata_keywords": true}, "density_score": 0.9830508474576272, "coherence_score": 0.3333333333333333, "overlap_context": {"has_overlap": false, "overlap_size": 0}}, {"chunk_id": "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0001", "document_id": "13605eb5-7c1b-403e-b243-752a26b1951f", "document_type": "text", "document_source": "/var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtyl76_4k3.txt", "chunk_index": 1, "start_char": 643, "end_char": 843, "page_number": null, "char_count": 198, "word_count": 27, "sentence_count": 4, "section_title": null, "hierarchy_level": 0, "is_code_block": false, "is_table_content": false, "keywords": ["fortalecer", "resiliencia", "enfoque"], "named_entities": ["No", "Buscadores", "Solo"], "technical_terms": [], "created_at": "2025-11-15T01:30:19.335589", "strategy_name": "sliding_window", "strategy_params": {"chunk_size": 1000, "overlap_size": 200, "min_chunk_size": 100, "respect_sentence_boundaries": true, "include_metadata_keywords": true}, "density_score": 0.9629629629629629, "coherence_score": 0.25, "overlap_context": {"has_overlap": true, "overlap_size": 200}}, {"chunk_id": "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0002", "document_id": "13605eb5-7c1b-403e-b243-752a26b1951f", "document_type": "text", "document_source": "/var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtyl76_4k3.txt", "chunk_index": 2, "start_char": 1443, "end_char": 2109, "page_number": null, "char_count": 666, "word_count": 104, "sentence_count": 5, "section_title": null, "hierarchy_level": 0, "is_code_block": false, "is_table_content": false, "keywords": ["con", "presencia", "cuerpo"], "named_entities": ["No", "Si", "Te", "Pandora Experience"], "technical_terms": ["NUESTRA", "EL", "PROMESA"], "created_at": "2025-11-15T01:30:19.335928", "strategy_name": "sliding_window", "strategy_params": {"chunk_size": 1000, "overlap_size": 200, "min_chunk_size": 100, "respect_sentence_boundaries": true, "include_metadata_keywords": true}, "density_score": 0.9423076923076923, "coherence_score": 1.0, "overlap_context": {"has_overlap": true, "overlap_size": 200}}, {"chunk_id": "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0003", "document_id": "13605eb5-7c1b-403e-b243-752a26b1951f", "document_type": "text", "document_source": "/var/folders/qg/jn3jgjhs429dtsdpsd56r3jh0000gn/T/WHAT IS PANDORA?.txtyl76_4k3.txt", "chunk_index": 3, "start_char": 1909, "end_char": 2109, "page_number": null, "char_count": 199, "word_count": 34, "sentence_count": 2, "section_title": null, "hierarchy_level": 0, "is_code_block": false, "is_table_content": false, "keywords": ["para", "est\u00e1s", "llamado"], "named_entities": ["Pandora Experience"], "technical_terms": [], "created_at": "2025-11-15T01:30:19.336040", "strategy_name": "sliding_window", "strategy_params": {"chunk_size": 1000, "overlap_size": 200, "min_chunk_size": 100, "respect_sentence_boundaries": true, "include_metadata_keywords": true}, "density_score": 0.9117647058823529, "coherence_score": 1.0, "overlap_context": {"has_overlap": true, "overlap_size": 200}}], "ids": ["e86a7633-4157-4c44-b443-586a410ed6f4_chunk_0000", "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0000", "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0001", "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0002", "13605eb5-7c1b-403e-b243-752a26b1951f_chunk_0003"]}
+{
+  "texts": [
+    "\u00bfQU\u00c9 ES PANDORA EXPERIENCE? \ud83c\udf2c\ufe0f UNA EXPERIENCIA QUE TRANSFORMA EL FR\u00cdO EN CLARIDAD Pandora Experience es una jornada vivencial de transformaci\u00f3n personal que integra respiraci\u00f3n consciente, meditaci\u00f3n guiada y terapia de inmersi\u00f3n en hielo. M\u00e1s que una actividad, es un viaje hacia adentro que invita a soltar el miedo, desbloquear emociones reprimidas y reconectar con tu fortaleza interior. \ud83d\udc96 PARA QUI\u00c9N ES Esta experiencia est\u00e1 dise\u00f1ada para: Personas en procesos de cambio o reinvenci\u00f3n personal. Quienes se sienten estancados emocionalmente, con ansiedad, estr\u00e9s o falta de claridad. Profesionales, emprendedores o l\u00edderes que desean fortalecer su resiliencia y enfoque mental. Buscadores de bienestar emocional, espiritual y energ\u00e9tico. No se requiere experiencia previa. Solo apertura a sentir, respirar y rendirse al proceso.",
+    "sean fortalecer su resiliencia y enfoque mental. Buscadores de bienestar emocional, espiritual y energ\u00e9tico. No se requiere experiencia previa. Solo apertura a sentir, respirar y rendirse al proceso.",
+    "sabidur\u00eda del cuerpo Liberaci\u00f3n de patrones inconscientes Sensaci\u00f3n de paz, presencia y expansi\u00f3n \ud83c\udf1f NUESTRA PROMESA Aqu\u00ed no vienes a pelear contra el dolor, sino a transformarlo en claridad, fortaleza y paz. No necesitas m\u00e1s lucha, necesitas menos resistencia. Te acompa\u00f1amos a habitar tu cuerpo sin miedo, abrazar la incomodidad con presencia y descubrir que la verdadera fortaleza est\u00e1 en tu vulnerabilidad. \ud83d\udeaa EL PRIMER PASO Si sientes el llamado a soltar, a reiniciar desde adentro, y a desafiar tus l\u00edmites con amor y presencia, Pandora Experience es para ti. \u00bfEst\u00e1s list@ para sumergirte y descubrir de lo que realmente est\u00e1s hecho?",
+    "el llamado a soltar, a reiniciar desde adentro, y a desafiar tus l\u00edmites con amor y presencia, Pandora Experience es para ti. \u00bfEst\u00e1s list@ para sumergirte y descubrir de lo que realmente est\u00e1s hecho?"
+  ],
+  "metadatas": [
+    {
+      "chunk_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0000",
+      "document_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50",
+      "document_type": "docx",
+      "document_source": "\u00bfQUE\u0301 ES PANDORA EXPERIENCE_.docx",
+      "chunk_index": 0,
+      "start_char": 0,
+      "end_char": 833,
+      "page_number": null,
+      "char_count": 832,
+      "word_count": 118,
+      "sentence_count": 9,
+      "section_title": null,
+      "hierarchy_level": 0,
+      "is_code_block": false,
+      "is_table_content": false,
+      "keywords": [
+        "que",
+        "una",
+        "experiencia"
+      ],
+      "named_entities": [
+        "Quienes",
+        "Profesionales",
+        "Personas",
+        "Pandora Experience",
+        "Esta"
+      ],
+      "technical_terms": [
+        "ES",
+        "PANDORA",
+        "EXPERIENCE"
+      ],
+      "created_at": "2025-11-15T12:07:27.586154",
+      "strategy_name": "sliding_window",
+      "strategy_params": {
+        "chunk_size": 1000,
+        "overlap_size": 200,
+        "min_chunk_size": 100,
+        "respect_sentence_boundaries": true,
+        "include_metadata_keywords": true
+      },
+      "density_score": 0.9830508474576272,
+      "coherence_score": 0.3333333333333333,
+      "overlap_context": {
+        "has_overlap": false,
+        "overlap_size": 0
+      }
+    },
+    {
+      "chunk_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0001",
+      "document_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50",
+      "document_type": "docx",
+      "document_source": "\u00bfQUE\u0301 ES PANDORA EXPERIENCE_.docx",
+      "chunk_index": 1,
+      "start_char": 633,
+      "end_char": 833,
+      "page_number": null,
+      "char_count": 199,
+      "word_count": 28,
+      "sentence_count": 4,
+      "section_title": null,
+      "hierarchy_level": 0,
+      "is_code_block": false,
+      "is_table_content": false,
+      "keywords": [
+        "sean",
+        "fortalecer",
+        "resiliencia"
+      ],
+      "named_entities": [
+        "Solo",
+        "Buscadores",
+        "No"
+      ],
+      "technical_terms": [],
+      "created_at": "2025-11-15T12:07:27.586256",
+      "strategy_name": "sliding_window",
+      "strategy_params": {
+        "chunk_size": 1000,
+        "overlap_size": 200,
+        "min_chunk_size": 100,
+        "respect_sentence_boundaries": true,
+        "include_metadata_keywords": true
+      },
+      "density_score": 0.9642857142857143,
+      "coherence_score": 0.25,
+      "overlap_context": {
+        "has_overlap": true,
+        "overlap_size": 200
+      }
+    },
+    {
+      "chunk_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0002",
+      "document_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50",
+      "document_type": "docx",
+      "document_source": "\u00bfQUE\u0301 ES PANDORA EXPERIENCE_.docx",
+      "chunk_index": 2,
+      "start_char": 1433,
+      "end_char": 2071,
+      "page_number": null,
+      "char_count": 637,
+      "word_count": 100,
+      "sentence_count": 5,
+      "section_title": null,
+      "hierarchy_level": 0,
+      "is_code_block": false,
+      "is_table_content": false,
+      "keywords": [
+        "presencia",
+        "cuerpo",
+        "paz"
+      ],
+      "named_entities": [
+        "Te",
+        "Si",
+        "No",
+        "Pandora Experience"
+      ],
+      "technical_terms": [
+        "PROMESA",
+        "NUESTRA",
+        "EL"
+      ],
+      "created_at": "2025-11-15T12:07:27.586484",
+      "strategy_name": "sliding_window",
+      "strategy_params": {
+        "chunk_size": 1000,
+        "overlap_size": 200,
+        "min_chunk_size": 100,
+        "respect_sentence_boundaries": true,
+        "include_metadata_keywords": true
+      },
+      "density_score": 0.94,
+      "coherence_score": 1.0,
+      "overlap_context": {
+        "has_overlap": true,
+        "overlap_size": 200
+      }
+    },
+    {
+      "chunk_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0003",
+      "document_id": "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50",
+      "document_type": "docx",
+      "document_source": "\u00bfQUE\u0301 ES PANDORA EXPERIENCE_.docx",
+      "chunk_index": 3,
+      "start_char": 1871,
+      "end_char": 2071,
+      "page_number": null,
+      "char_count": 199,
+      "word_count": 34,
+      "sentence_count": 2,
+      "section_title": null,
+      "hierarchy_level": 0,
+      "is_code_block": false,
+      "is_table_content": false,
+      "keywords": [
+        "para",
+        "est\u00e1s",
+        "llamado"
+      ],
+      "named_entities": [
+        "Pandora Experience"
+      ],
+      "technical_terms": [],
+      "created_at": "2025-11-15T12:07:27.586561",
+      "strategy_name": "sliding_window",
+      "strategy_params": {
+        "chunk_size": 1000,
+        "overlap_size": 200,
+        "min_chunk_size": 100,
+        "respect_sentence_boundaries": true,
+        "include_metadata_keywords": true
+      },
+      "density_score": 0.9117647058823529,
+      "coherence_score": 1.0,
+      "overlap_context": {
+        "has_overlap": true,
+        "overlap_size": 200
+      }
+    }
+  ],
+  "ids": [
+    "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0000",
+    "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0001",
+    "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0002",
+    "cf8e6d2f-2537-4ed1-9c30-5320d2cb5f50_chunk_0003"
+  ]
+}

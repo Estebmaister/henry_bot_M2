@@ -142,6 +142,7 @@ class FAISSVectorStore(VectorStore):
         self.texts = []
         self.metadatas = []
         self.ids = []
+        self.index_to_id = {}  # Maps FAISS index (int) to chunk_id (str)
 
     async def initialize(self) -> None:
         """Initialize FAISS index."""
@@ -153,7 +154,8 @@ class FAISSVectorStore(VectorStore):
             )
 
         # Create index
-        self.index = faiss.IndexFlatIP(self.dimension)  # Inner product for cosine similarity
+        # Inner product for cosine similarity
+        self.index = faiss.IndexFlatIP(self.dimension)
 
         # Load existing index if path provided
         if self.index_path and Path(self.index_path).exists():
@@ -171,10 +173,13 @@ class FAISSVectorStore(VectorStore):
             await self.initialize()
 
         # Normalize embeddings for cosine similarity
-        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+        embeddings = embeddings / \
+            np.linalg.norm(embeddings, axis=1, keepdims=True)
+
+        # Get starting index before adding
+        start_idx = self.index.ntotal
 
         # Add to index
-        start_idx = self.index.ntotal
         self.index.add(embeddings.astype(np.float32))
 
         # Store metadata
@@ -182,11 +187,15 @@ class FAISSVectorStore(VectorStore):
         self.metadatas.extend(metadatas)
         self.ids.extend(ids)
 
+        for i, chunk_id in enumerate(ids):
+            faiss_idx = start_idx + i
+            self.index_to_id[faiss_idx] = chunk_id
+
         # Save index if path provided
         if self.index_path:
             await self._save_index()
 
-        return ids[start_idx:start_idx + len(texts)]
+        return ids
 
     async def similarity_search(
         self,
@@ -207,7 +216,8 @@ class FAISSVectorStore(VectorStore):
 
         # Search
         query_embedding = query_embedding.reshape(1, -1).astype(np.float32)
-        scores, indices = self.index.search(query_embedding, min(k, self.index.ntotal))
+        scores, indices = self.index.search(
+            query_embedding, min(k, self.index.ntotal))
 
         # Process results
         chunks = []
@@ -256,10 +266,12 @@ class FAISSVectorStore(VectorStore):
         """Get FAISS index statistics."""
         return {
             "total_vectors": self.index.ntotal if self.index else 0,
+            "total_embeddings": self.index.ntotal if self.index else 0,
             "dimension": self.dimension,
             "index_type": "IndexFlatIP",
             "stored_texts": len(self.texts),
             "stored_metadatas": len(self.metadatas),
+            "index_mappings": len(self.index_to_id),
         }
 
     async def _save_index(self) -> None:
@@ -281,7 +293,14 @@ class FAISSVectorStore(VectorStore):
             "ids": self.ids,
         }
         with open(metadata_path, 'w') as f:
-            json.dump(metadata, f)
+            json.dump(metadata, f, indent=2)
+
+        index_mapping_path = self.index_path.replace(
+            '.faiss', '_index_mapping.json')
+        # Convert int keys to strings for JSON serialization
+        mapping_for_json = {str(k): v for k, v in self.index_to_id.items()}
+        with open(index_mapping_path, 'w') as f:
+            json.dump(mapping_for_json, f, indent=2)
 
     async def _load_index(self) -> None:
         """Load FAISS index from disk."""
@@ -301,6 +320,18 @@ class FAISSVectorStore(VectorStore):
             self.texts = metadata.get("texts", [])
             self.metadatas = metadata.get("metadatas", [])
             self.ids = metadata.get("ids", [])
+
+        index_mapping_path = self.index_path.replace(
+            '.faiss', '_index_mapping.json')
+        if Path(index_mapping_path).exists():
+            with open(index_mapping_path, 'r') as f:
+                mapping_data = json.load(f)
+            # Convert string keys back to integers
+            self.index_to_id = {int(k): v for k, v in mapping_data.items()}
+        else:
+            # Fallback: create mapping from current order
+            self.index_to_id = {i: chunk_id for i,
+                                chunk_id in enumerate(self.ids)}
 
     def _matches_filter(self, metadata: Dict[str, Any], filter_dict: Dict[str, Any]) -> bool:
         """Check if metadata matches filter criteria."""
@@ -372,7 +403,7 @@ class JSONDocumentStore(DocumentStore):
             ]
 
         # Sort by created_at descending
-        documents.sort(key=lambda x: x["created_at"], reverse=True)
+        documents.sort(key=lambda x: x.get("created_at", ""), reverse=True)
 
         # Apply pagination
         return documents[offset:offset + limit]
@@ -421,8 +452,10 @@ class JSONDocumentStore(DocumentStore):
     def get_stats(self) -> Dict[str, Any]:
         """Get document store statistics."""
         total_documents = len(self.documents)
-        processed_documents = sum(1 for doc in self.documents.values() if doc.get("chunk_count", 0) > 0)
-        total_chunks = sum(doc.get("chunk_count", 0) for doc in self.documents.values())
+        processed_documents = sum(
+            1 for doc in self.documents.values() if doc.get("chunk_count", 0) > 0)
+        total_chunks = sum(doc.get("chunk_count", 0)
+                           for doc in self.documents.values())
 
         # Document type distribution
         type_counts = {}
@@ -470,7 +503,7 @@ def create_vector_store(store_type: str = "faiss", **kwargs) -> VectorStore:
 
 def create_document_store(store_type: str = "json", **kwargs) -> DocumentStore:
     """
-    Factory function to create document stores.
+    Factory function to create document store.
 
     Args:
         store_type: Type of document store to create
